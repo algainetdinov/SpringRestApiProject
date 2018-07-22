@@ -9,7 +9,7 @@ public class OrganizationListViewResp {
 	
 	public String name;
 	
-	public boolean isActive;
+	public String isActive;
 	
 	/**
 	 * Constructor for initializing class fields
@@ -17,7 +17,7 @@ public class OrganizationListViewResp {
 	 * @param name
 	 * @param isActive
 	 */
-	public OrganizationListViewResp(Long id, String name, boolean isActive) {
+	public OrganizationListViewResp(Long id, String name, String isActive) {
 		this.id = id;
 		this.name = name;
 		this.isActive = isActive;

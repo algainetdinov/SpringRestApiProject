@@ -9,7 +9,7 @@ public class OrganizationListViewReq {
 	
 	public String inn;
 	
-	public boolean isActive;
+	public String isActive;
 	
 	/**
 	 * Default constructor

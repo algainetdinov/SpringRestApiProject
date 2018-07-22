@@ -19,7 +19,7 @@ public class OrganizationIdViewResp {
 	
 	public String phone;
 	
-	public boolean isActive;
+	public String isActive;
 	
 	/**
 	 * Constructor for initializing class fields
@@ -33,7 +33,7 @@ public class OrganizationIdViewResp {
 	 * @param isActive
 	 */
 	public OrganizationIdViewResp(Long id, String name, String fullName, String inn, String kpp, String address,
-			String phone, boolean isActive) {
+			String phone, String isActive) {
 		this.id = id;
 		this.name = name;
 		this.fullName = fullName;

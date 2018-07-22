@@ -24,14 +24,14 @@ public class LegalEntity extends BaseEntity{
 	/**
 	 * Address of legal entity
 	 */
-	@Column(name = "address", length = 18, nullable = false)
+	@Column(name = "address", length = 64, nullable = false)
 	private String address;
 
 	/**
 	 * Flag of activity of legal entity
 	 */
 	@Column(name = "is_active")
-	private boolean isActive;
+	private Boolean isActive;
 	
 	/**
 	 * Initialize all new entities as active
@@ -64,11 +64,11 @@ public class LegalEntity extends BaseEntity{
 		this.address = address;
 	}
 
-	public boolean isActive() {
+	public Boolean getIsActive() {
 		return isActive;
 	}
 
-	public void setActive(boolean isActive) {
+	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
 }
