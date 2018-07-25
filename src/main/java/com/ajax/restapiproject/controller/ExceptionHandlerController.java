@@ -1,5 +1,7 @@
 package com.ajax.restapiproject.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,6 +15,7 @@ import com.ajax.restapiproject.view.ExceptionView;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -38,6 +41,7 @@ public class ExceptionHandlerController {
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ExceptionView handleException (Exception e) {
+		logger.error("Exception: ", e);
 		ExceptionView exView = new ExceptionView("Internal server error");
 		return exView;
 	}

@@ -5,7 +5,7 @@ package com.ajax.restapiproject.organization.view;
  */
 public class OrganizationUpdateViewReq {
 	
-	public Long id;
+	public String id;
 	
 	public String name;
 	
@@ -19,7 +19,7 @@ public class OrganizationUpdateViewReq {
 	
 	public String phone;
 	
-	public boolean isActive;
+	public String isActive;
 
 	/**
 	 * Default constructor
@@ -32,5 +32,6 @@ public class OrganizationUpdateViewReq {
 		return "id=" + id + ", name=" + name + ", fullName=" + fullName + ", inn=" + inn
 				+ ", kpp=" + kpp + ", address=" + address + ", phone=" + phone + ", isActive=" + isActive;
 	}
+	
 	
 }

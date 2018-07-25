@@ -7,6 +7,7 @@ import com.ajax.restapiproject.organization.view.OrganizationListViewReq;
 import com.ajax.restapiproject.organization.view.OrganizationListViewResp;
 import com.ajax.restapiproject.organization.view.OrganizationSaveViewReq;
 import com.ajax.restapiproject.organization.view.OrganizationUpdateViewReq;
+import com.ajax.restapiproject.view.SuccessView;
 
 public interface OrganizationService {
 	
@@ -14,7 +15,7 @@ public interface OrganizationService {
 	
 	List<OrganizationListViewResp> loadByName(OrganizationListViewReq reqView);
 	
-	void save (OrganizationSaveViewReq reqView);
+	SuccessView save (OrganizationSaveViewReq reqView);
 	
-	void update (OrganizationUpdateViewReq reqView);
+	SuccessView update (OrganizationUpdateViewReq reqView);
 }

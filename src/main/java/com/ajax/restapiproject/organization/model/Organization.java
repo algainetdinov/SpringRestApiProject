@@ -60,5 +60,12 @@ public class Organization extends LegalEntity{
 
 	public void setKpp(String kpp) {
 		this.kpp = kpp;
+	}
+
+	@Override
+	public String toString() {
+		return "Organization [id="+getId()+", name=" + getName() +", fullName=" + fullName + ", inn=" + inn + ", kpp=" + kpp + 
+				", phone=" + getPhone() + ", address=" + getAddress() + ", isActive=" + getIsActive()+"]";
 	}	
+	
 }

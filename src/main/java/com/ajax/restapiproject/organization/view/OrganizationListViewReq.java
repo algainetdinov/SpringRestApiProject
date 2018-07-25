@@ -14,6 +14,10 @@ public class OrganizationListViewReq {
 	/**
 	 * Default constructor
 	 */
-	public OrganizationListViewReq() {
+	public OrganizationListViewReq() {}
+
+	@Override
+	public String toString() {
+		return "OrganizationListViewReq [name=" + name + ", inn=" + inn + ", isActive=" + isActive + "]";
 	}
 }

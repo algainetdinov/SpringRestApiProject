@@ -43,4 +43,10 @@ public class OrganizationIdViewResp {
 		this.phone = phone;
 		this.isActive = isActive;
 	}
+
+	@Override
+	public String toString() {
+		return "OrganizationIdViewResp [id=" + id + ", name=" + name + ", fullName=" + fullName + ", inn=" + inn
+				+ ", kpp=" + kpp + ", address=" + address + ", phone=" + phone + ", isActive=" + isActive + "]";
+	}
 }

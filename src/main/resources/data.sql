@@ -87,13 +87,13 @@ INSERT INTO office (id, version, name, address, phone, org_id, is_active) VALUES
 
 -- Fill user table
 
-INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, citiz_id, doc_id, office_id) VALUES (1, 0, 'Иван', 'Иванов', 'Константинович', true, 'Кассир', 1, 1, 1);
+INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, phone, citiz_id, doc_id, office_id) VALUES (1, 0, 'Иван', 'Иванов', 'Константинович', true, 'Кассир', '+7-(900)-000-00-00', 1, 1, 1);
 
-INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, citiz_id, doc_id, office_id) VALUES (2, 0, 'Кси', 'Пинг', 'Федорович', true, 'Начальник отдела', 2, 2, 2);
+INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, phone, citiz_id, doc_id, office_id) VALUES (2, 0, 'Кси', 'Пинг', 'Федорович', true, 'Начальник отдела', '+7-(900)-000-00-01', 2, 2, 2);
 
-INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, citiz_id, doc_id, office_id) VALUES (3, 0, 'Джон', 'Адамс', 'Сергеевич', true, 'Менеджер', 3, 3, 3);
+INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, phone, citiz_id, doc_id, office_id) VALUES (3, 0, 'Джон', 'Адамс', 'Сергеевич', true, 'Менеджер', '+7-(900)-000-00-02', 3, 3, 3);
 
-INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, citiz_id, doc_id, office_id) VALUES (4, 0, 'Иозеф', 'Шмидт', 'Александрович', true, 'Управляющий залом', 4, 4, 4);
+INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, phone, citiz_id, doc_id, office_id) VALUES (4, 0, 'Иозеф', 'Шмидт', 'Александрович', true, 'Управляющий залом', '+7-(900)-000-00-03', 4, 4, 4);
 
-INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, citiz_id, doc_id, office_id) VALUES (5, 0, 'Дональд', 'Сандерс', 'Иванович', true, 'Управляющий залом', 5, 5, 5);
+INSERT INTO user (id, version, first_name, last_name, middle_name, is_identified, position, phone, citiz_id, doc_id, office_id) VALUES (5, 0, 'Дональд', 'Сандерс', 'Иванович', true, 'Управляющий залом', '+7-(900)-000-00-04', 5, 5, 5);
 

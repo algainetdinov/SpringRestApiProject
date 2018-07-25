@@ -36,9 +36,7 @@ public class LegalEntity extends BaseEntity{
 	/**
 	 * Initialize all new entities as active
 	 */
-	public LegalEntity() {
-		this.isActive = true;
-	}
+	public LegalEntity() {}
 
 	public String getName() {
 		return name;

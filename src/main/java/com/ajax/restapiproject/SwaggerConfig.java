@@ -21,6 +21,7 @@ public class SwaggerConfig {
           .apis(RequestHandlerSelectors.basePackage("com.ajax.restapiproject"))              
           .paths(PathSelectors.any())                          
           .build()
+          .useDefaultResponseMessages(false)
           .apiInfo(apiInfo());                                           
     }
     private ApiInfo apiInfo() {

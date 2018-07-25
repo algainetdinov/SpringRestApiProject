@@ -17,7 +17,7 @@ public class OrganizationSaveViewReq {
 	
 	public String phone;
 	
-	public boolean isActive;
+	public String isActive;
 
 	/**
 	 * Default constructor

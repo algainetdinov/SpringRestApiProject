@@ -51,14 +51,14 @@ public class OfficeController {
 	@ApiOperation("Updates an office with provided data")
 	@RequestMapping(value = "/update", method= RequestMethod.POST)
     public SuccessView updateOffice(@RequestBody OfficeUpdateViewReq updateOffice){
-		SuccessView success = new SuccessView("success", updateOffice.toString());
+		SuccessView success = new SuccessView("success");
 		return success;
     }
 	
 	@ApiOperation("Creates an office with provided data")
 	@RequestMapping(value = "/save", method= RequestMethod.POST)
     public SuccessView saveOrg(@RequestBody OfficeSaveViewReq saveOffice){
-		SuccessView success = new SuccessView("success", saveOffice.toString());
+		SuccessView success = new SuccessView("success");
 		return success;
     }
 }

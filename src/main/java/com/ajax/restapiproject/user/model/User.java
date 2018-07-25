@@ -32,6 +32,12 @@ public class User extends Person{
 	private String position;
 	
 	/**
+	 * Person's position in organization
+	 */
+	@Column(name = "phone", length = 18)
+	private String phone;
+	
+	/**
 	 * Person's office
 	 */
 	@ManyToOne

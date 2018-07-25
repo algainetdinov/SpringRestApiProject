@@ -51,14 +51,14 @@ public class UserController {
 	@ApiOperation("Updates a user with provided data")
 	@RequestMapping(value = "/update", method= RequestMethod.POST)
     public SuccessView updateUser(@RequestBody UserUpdateViewReq updateUser){
-		SuccessView success = new SuccessView("success", updateUser.toString());
+		SuccessView success = new SuccessView("success");
 		return success;
     }
 	
 	@ApiOperation("Creates a user with provided data")
 	@RequestMapping(value = "/save", method= RequestMethod.POST)
     public SuccessView saveUser(@RequestBody UserSaveViewReq saveUser){
-		SuccessView success = new SuccessView("success", saveUser.toString());
+		SuccessView success = new SuccessView("success");
 		return success;
     }
 }

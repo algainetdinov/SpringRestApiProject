@@ -5,7 +5,7 @@ import java.util.List;
 import com.ajax.restapiproject.organization.model.Organization;
 
 /**
- * Dao for retrieving organizaton
+ * Dao for retrieving organization
  */
 public interface OrganizationDao {
 	
@@ -28,10 +28,4 @@ public interface OrganizationDao {
 	 * @param org
 	 */
 	void save(Organization org);
-	
-	/**
-	 * Update organization
-	 * @param org
-	 */
-	void update(Organization org);
 }
