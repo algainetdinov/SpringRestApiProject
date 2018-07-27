@@ -5,7 +5,6 @@ package com.ajax.restapiproject.organization.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.transaction.Transactional;
 
@@ -25,6 +24,8 @@ import com.ajax.restapiproject.organization.view.OrganizationListViewResp;
 import com.ajax.restapiproject.organization.view.OrganizationSaveViewReq;
 import com.ajax.restapiproject.organization.view.OrganizationUpdateViewReq;
 import com.ajax.restapiproject.view.SuccessView;
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 
 /**
  * Organization service
@@ -37,15 +38,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 	
 	private final OrganizationDao orgDao;
 	
-	private static final Pattern innPattern = Pattern.compile("\\d{10}");
-	
-	private static final Pattern kppPattern = Pattern.compile("\\d{9}");
-	
-	private static final Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$");
+	private final OrganizationValidation orgVal;
 	
 	@Autowired 
-	public OrganizationServiceImpl (OrganizationDao orgDao) {
-		this.orgDao=orgDao;
+	public OrganizationServiceImpl (OrganizationDao orgDao, OrganizationValidation orgVal) {
+		this.orgDao = orgDao;
+		this.orgVal = orgVal;
 	}
 	
 	/* 
@@ -56,40 +54,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		logger.info("Request by id, loadById method: "+ id);
 		
-		boolean isBadReqExOcurred = false;
+		String loadByIdValError = (orgVal.valId(id, true));
 		
-		String badReqExMessage="";
-		
-		if (StringUtils.isBlank(id)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization identifier should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		try {
-			Long.parseLong(id);
-		}
-		
-		catch (Exception e) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization identifier should be a number";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		if (Long.parseLong(id)<1) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization identifier should be a positive number";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		if(isBadReqExOcurred) {
-			throw new BadRequestException(badReqExMessage);
+		if(!loadByIdValError.isEmpty()) {
+			throw new BadRequestException(loadByIdValError);
 		}
 		
 		Organization org = orgDao.loadById(Long.parseLong(id));
 		
 		if(org==null) {
-			throw new NotFoundException("Organization is not found");
+			throw new NotFoundException("Organization");
 		}
 		
 		OrganizationIdViewResp viewResp = new OrganizationIdViewResp(org.getId(), org.getName(), org.getFullName(), 
@@ -108,41 +82,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		logger.info("Request for filtering by name, loadByName method: " + reqView);
 		
-		boolean isBadReqExOcurred = false;
+		Joiner joiner = Joiner.on(". ").skipNulls();
 		
-		String badReqExMessage="";
+		String loadByNameValErrors = joiner.join(
+				Strings.emptyToNull(orgVal.valName(reqView.name, true)),
+				Strings.emptyToNull(orgVal.valInn(reqView.inn, true)),
+				Strings.emptyToNull(orgVal.valIsActive(reqView.isActive, false))						
+		);
 		
-		if (StringUtils.isBlank(reqView.name)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization name should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if (reqView.name.length()<5||reqView.name.length()>64) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization name length should be between 5 and 64 characters";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		if(StringUtils.isNotBlank(reqView.inn)) {
-			if (!innPattern.matcher(reqView.inn).matches()) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization INN should be 10 digit number";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(StringUtils.isNotBlank(reqView.isActive)) {
-			if ((!reqView.isActive.equalsIgnoreCase("true")) && (!reqView.isActive.equalsIgnoreCase("false"))) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization activity should be either true or false";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(isBadReqExOcurred) {
-			throw new BadRequestException(badReqExMessage);
+		if(!loadByNameValErrors.isEmpty()) {
+			throw new BadRequestException(loadByNameValErrors);
 		}
 		
 		Organization org = new Organization();
@@ -179,99 +128,20 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		logger.info("Request for saving, save method: " + reqView);
 		
-		boolean isBadReqExOcurred = false;
+		Joiner joiner = Joiner.on (". ").skipNulls();
 		
-		String badReqExMessage="";
+		String saveValErrors = joiner.join(
+				Strings.emptyToNull(orgVal.valName(reqView.name, true)),
+				Strings.emptyToNull(orgVal.valFullName(reqView.fullName, true)),
+				Strings.emptyToNull(orgVal.valInn(reqView.inn, true)),
+				Strings.emptyToNull(orgVal.valKpp(reqView.kpp, true)),
+				Strings.emptyToNull(orgVal.valAddress(reqView.address, true)),
+				Strings.emptyToNull(orgVal.valPhone(reqView.phone, false)),
+				Strings.emptyToNull(orgVal.valIsActive(reqView.isActive, false))						
+		);
 		
-		if (StringUtils.isBlank(reqView.name)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization name should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if (reqView.name.length()<5||reqView.name.length()>64) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization name length should be between 5 and 64 characters";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-
-		if (StringUtils.isBlank(reqView.fullName)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization full name should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if (reqView.fullName.length()<7||reqView.fullName.length()>128) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization full name length should be between 7 and 128 characters";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		if(StringUtils.isBlank(reqView.inn)) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization INN should be provided";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if(StringUtils.isNotBlank(reqView.inn)) {
-			if (!innPattern.matcher(reqView.inn).matches()) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization INN should be 10 digit number";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(StringUtils.isBlank(reqView.kpp)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization KPP should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-	
-	
-		if(StringUtils.isNotBlank(reqView.kpp)) {
-			if (!kppPattern.matcher(reqView.kpp).matches()) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization KPP should be 9 digit number";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-	
-		if (StringUtils.isBlank(reqView.address)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization address should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-	
-	
-		if (reqView.address.length()<5||reqView.address.length()>64) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization address length should be between 5 and 64 characters";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if(StringUtils.isNotBlank(reqView.isActive)) {
-			if ((!reqView.isActive.equalsIgnoreCase("true")) && (!reqView.isActive.equalsIgnoreCase("false"))) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization activity should be either true or false";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(StringUtils.isNotBlank(reqView.phone)) {
-			if (!phonePattern.matcher(reqView.phone).matches()) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization phone number should be in +7 xxx xx xx xx format";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(isBadReqExOcurred) {
-			throw new BadRequestException(badReqExMessage);
+		if(!saveValErrors.isEmpty()) {
+			throw new BadRequestException(saveValErrors);
 		}
 		
 		Organization org = new Organization();
@@ -312,127 +182,27 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		logger.info("Request for updating, update method: " + reqView);
 		
-		boolean isBadReqExOcurred = false;
+		Joiner joiner = Joiner.on (". ").skipNulls();
 		
-		String badReqExMessage="";
+		String updateValErrors = joiner.join(
+				Strings.emptyToNull(orgVal.valId(reqView.id, true)),
+				Strings.emptyToNull(orgVal.valName(reqView.name, true)),
+				Strings.emptyToNull(orgVal.valFullName(reqView.fullName, true)),
+				Strings.emptyToNull(orgVal.valInn(reqView.inn, true)),
+				Strings.emptyToNull(orgVal.valKpp(reqView.kpp, true)),
+				Strings.emptyToNull(orgVal.valAddress(reqView.address, true)),
+				Strings.emptyToNull(orgVal.valPhone(reqView.phone, false)),
+				Strings.emptyToNull(orgVal.valIsActive(reqView.isActive, false))						
+		);
 		
-		if (StringUtils.isBlank(reqView.id)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization identifier should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
+		if(!updateValErrors.isEmpty()) {
+			throw new BadRequestException(updateValErrors);
 		}
-		
-		try {
-			Long.parseLong(reqView.id);
-		}
-		
-		catch (Exception e) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization identifier should be a number";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		if (Long.parseLong(reqView.id)<1) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization identifier should be a positive number";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		if (StringUtils.isBlank(reqView.name)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization name should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if (reqView.name.length()<5||reqView.name.length()>64) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization name length should be between 5 and 64 characters";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-
-		if (StringUtils.isBlank(reqView.fullName)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization full name should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if (reqView.fullName.length()<7||reqView.fullName.length()>128) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization full name length should be between 7 and 128 characters";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		if(StringUtils.isBlank(reqView.inn)) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization INN should be provided";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if(StringUtils.isNotBlank(reqView.inn)) {
-			if (!innPattern.matcher(reqView.inn).matches()) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization INN should be 10 digit number";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(StringUtils.isBlank(reqView.kpp)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization KPP should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-	
-	
-		if(StringUtils.isNotBlank(reqView.kpp)) {
-			if (!kppPattern.matcher(reqView.kpp).matches()) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization KPP should be 9 digit number";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-	
-		if (StringUtils.isBlank(reqView.address)) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization address should be provided";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-	
-	
-		if (reqView.address.length()<5||reqView.address.length()>64) {
-			isBadReqExOcurred=true;
-			String currentExMessage="Organization address length should be between 5 and 64 characters";
-			badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-		}
-		
-		
-		if(StringUtils.isNotBlank(reqView.isActive)) {
-			if ((!reqView.isActive.equalsIgnoreCase("true")) && (!reqView.isActive.equalsIgnoreCase("false"))) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization activity should be either true or false";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(StringUtils.isNotBlank(reqView.phone)) {
-			if (!phonePattern.matcher(reqView.phone).matches()) {
-				isBadReqExOcurred=true;
-				String currentExMessage="Organization phone number should be in +7 xxx xx xx xx format";
-				badReqExMessage=badReqExMessage.isEmpty()?currentExMessage:badReqExMessage+". "+currentExMessage;
-			}
-		}
-		
-		if(isBadReqExOcurred) {
-			throw new BadRequestException(badReqExMessage);
-		}
-		
+				
 		Organization org = orgDao.loadById(Long.parseLong(reqView.id));
 		
 		if(org==null) {
-			throw new NotFoundException("Organization is not found");
+			throw new NotFoundException("Organization");
 		}
 		
 		logger.info("Organization to be updated by update request, save method: " + reqView + ".  " + org);

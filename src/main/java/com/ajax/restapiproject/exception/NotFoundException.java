@@ -11,6 +11,6 @@ public class NotFoundException extends ApiException{
 	 * @param message
 	 */
 	public NotFoundException(String message) {
-		super(message);
+		super(message + " is not found");
 	}
 }
