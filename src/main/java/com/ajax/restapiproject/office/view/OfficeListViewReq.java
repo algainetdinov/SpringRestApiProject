@@ -5,13 +5,13 @@ package com.ajax.restapiproject.office.view;
  */
 public class OfficeListViewReq {
 	
-	public Long orgId;
+	public String orgId;
 	
 	public String name;
 	
 	public String phone;
 	
-	public boolean isActive;
+	public String isActive;
 	
 	/**
 	 * Default constructor

@@ -5,11 +5,11 @@ package com.ajax.restapiproject.office.view;
  */
 public class OfficeListViewResp {
 	
-	public Long id;
+	public String id;
 	
 	public String name;
 	
-	public boolean isActive;
+	public String isActive;
 	
 	/**
 	 * Constructor for initializing class fields
@@ -17,7 +17,7 @@ public class OfficeListViewResp {
 	 * @param name
 	 * @param isActive
 	 */
-	public OfficeListViewResp(Long id, String name, boolean isActive) {
+	public OfficeListViewResp(String id, String name, String isActive) {
 		this.id = id;
 		this.name = name;
 		this.isActive = isActive;

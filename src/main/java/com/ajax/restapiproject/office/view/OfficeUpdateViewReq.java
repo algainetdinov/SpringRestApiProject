@@ -5,7 +5,7 @@ package com.ajax.restapiproject.office.view;
  */
 public class OfficeUpdateViewReq {
 	
-	public Long id;
+	public String id;
 	
 	public String name;
 	
@@ -13,7 +13,7 @@ public class OfficeUpdateViewReq {
 	
 	public String phone;
 	
-	public boolean isActive;
+	public String isActive;
 	
 	/**
 	 * Default constructor
@@ -23,7 +23,7 @@ public class OfficeUpdateViewReq {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", name=" + name + ", address=" + address + ", phone=" + phone
-				+ ", isActive=" + isActive;
+		return "OfficeUpdateViewReq [id=" + id + ", name=" + name + ", address=" + address
+				+ ", phone=" + phone + ", isActive=" + isActive + "]";
 	}
 }

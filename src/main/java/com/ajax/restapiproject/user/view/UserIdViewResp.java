@@ -5,7 +5,7 @@ package com.ajax.restapiproject.user.view;
  */
 public class UserIdViewResp {
 
-	public Long id;
+	public String id;
 		
 	public String firstName;
 		
@@ -27,7 +27,7 @@ public class UserIdViewResp {
 		
 	public String citizenshipCode;
 		
-	public boolean isIdentified;
+	public String isIdentified;
 
 	/**
 	 * Constructor for initializing class fields
@@ -44,9 +44,9 @@ public class UserIdViewResp {
 	 * @param citizenshipCode
 	 * @param isIdentified
 	 */
-	public UserIdViewResp(Long id, String firstName, String lastName, String middleName, String position, String phone,
+	public UserIdViewResp(String id, String firstName, String lastName, String middleName, String position, String phone,
 				String docName, String docNumber, String docDate, String citizenshipName, String citizenshipCode,
-				boolean isIdentified) {
+				String isIdentified) {
 			this.id = id;
 			this.firstName = firstName;
 			this.lastName = lastName;

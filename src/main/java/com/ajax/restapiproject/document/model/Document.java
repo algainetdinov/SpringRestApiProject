@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.ajax.restapiproject.doctype.model.DocType;
+import com.ajax.restapiproject.doctype.model.Doctype;
 import com.ajax.restapiproject.model.BaseEntity;
 
 /**
@@ -40,7 +40,7 @@ public class Document extends BaseEntity{
 	 */
 	@ManyToOne
 	@JoinColumn(name = "type_code")
-	private DocType type;
+	private Doctype type;
 
 	public Date getDocDate() {
 		return docDate;
@@ -58,11 +58,11 @@ public class Document extends BaseEntity{
 		this.docNumber = docNumber;
 	}
 
-	public DocType getType() {
+	public Doctype getType() {
 		return type;
 	}
 
-	public void setType(DocType type) {
+	public void setType(Doctype type) {
 		this.type = type;
 	}
 }

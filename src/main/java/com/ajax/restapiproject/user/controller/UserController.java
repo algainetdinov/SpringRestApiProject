@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ajax.restapiproject.user.dao.UserDao;
 import com.ajax.restapiproject.user.view.UserIdViewResp;
 import com.ajax.restapiproject.user.view.UserListViewReq;
 import com.ajax.restapiproject.user.view.UserListViewResp;
@@ -25,6 +26,10 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
+	
+	private UserDao userDao;
+	
+	
 	
 	/**
 	 * Since there is no service and DAO yet, initialize view with test data
@@ -42,9 +47,10 @@ public class UserController {
 	@ApiOperation("Returns a user specified by ID")
 	@RequestMapping(value = "/{id}", method= RequestMethod.GET)
     public UserIdViewResp getUserById(@PathVariable Long id){
-		UserIdViewResp user = new UserIdViewResp(id, "Остап", "Бендер", 
+		
+		UserIdViewResp user = new UserIdViewResp(String.valueOf(id), "Остап", "Бендер", 
 				"Берта Мария", "Разработчик", "8 (347) 276-61-76", "Паспорт РСФСР", 
-				"1111-11", "22.11.2010", "РСФСР", "001", true);		
+				"1111-11", "22.11.2010", "РСФСР", "001", "true");		
         return user;
     }
 	

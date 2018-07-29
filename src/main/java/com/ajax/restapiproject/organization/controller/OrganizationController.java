@@ -83,4 +83,16 @@ public class OrganizationController {
     public SuccessView saveOrg(@RequestBody OrganizationSaveViewReq saveOrg){
 		return orgService.save(saveOrg);
     }
+	
+	@ApiOperation("Deletes an organization by ID")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value = "/delete/{id}", method= RequestMethod.GET)
+    public SuccessView deleteOrgById(@PathVariable String id){
+		return orgService.deleteById(id);
+    }
 }

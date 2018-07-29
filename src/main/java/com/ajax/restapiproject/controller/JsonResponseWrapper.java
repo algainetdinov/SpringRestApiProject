@@ -16,8 +16,8 @@ import com.ajax.restapiproject.view.ExceptionView;
  * @author Al
  *
  */
-@RestControllerAdvice
-public class JsonResponceWrapper implements ResponseBodyAdvice<Object>{
+@RestControllerAdvice(basePackages="com.ajax.restapiproject")
+public class JsonResponseWrapper implements ResponseBodyAdvice<Object>{
 	
 	    @Override
 	    public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {

@@ -1,10 +1,15 @@
 package com.ajax.restapiproject.organization.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.ajax.restapiproject.model.LegalEntity;
+import com.ajax.restapiproject.office.model.Office;
 
 /**
  * Organization class
@@ -30,6 +35,12 @@ public class Organization extends LegalEntity{
 	 */
 	@Column(name = "kpp", length = 9, nullable = false)
 	private String kpp;
+	
+	/**
+	 * List of related offices
+	 */
+	@OneToMany(mappedBy="org", cascade = CascadeType.ALL)
+	private List<Office> offices;
 	
 	/**
 	 * Call superclass constructor in order to initialize isActive field
@@ -61,11 +72,18 @@ public class Organization extends LegalEntity{
 	public void setKpp(String kpp) {
 		this.kpp = kpp;
 	}
+	
+	public List<Office> getOffices() {
+		return offices;
+	}
+
+	public void setOffices(List<Office> offices) {
+		this.offices = offices;
+	}	
 
 	@Override
 	public String toString() {
 		return "Organization [id="+getId()+", name=" + getName() +", fullName=" + fullName + ", inn=" + inn + ", kpp=" + kpp + 
 				", phone=" + getPhone() + ", address=" + getAddress() + ", isActive=" + getIsActive()+"]";
 	}	
-	
 }

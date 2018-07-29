@@ -87,4 +87,11 @@ public class OrganizationDaoImpl implements OrganizationDao{
 		
 		em.persist(org);
 	}
+	
+	public void delete (Organization org) {
+		
+		logger.info("Organization to be deleted: " + org);
+		
+		em.remove(org);
+	}
 }

@@ -28,4 +28,10 @@ public interface OrganizationDao {
 	 * @param org
 	 */
 	void save(Organization org);
+	
+	/**
+	 * Delete an organization by Id
+	 * @param org
+	 */
+	void delete(Organization org);
 }

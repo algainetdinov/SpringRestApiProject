@@ -5,14 +5,16 @@ package com.ajax.restapiproject.office.view;
  */
 public class OfficeSaveViewReq {
 		
+	public String orgId;
+	
 	public String name;
 	
 	public String address;
 
 	public String phone;
 	
-	public boolean isActive;
-	
+	public String isActive;
+
 	/**
 	 * Default constructor
 	 */
@@ -21,6 +23,6 @@ public class OfficeSaveViewReq {
 
 	@Override
 	public String toString() {
-		return "name=" + name + ", address=" + address + ", phone=" + phone + ", isActive="+ isActive;
+		return "name=" + name + ", orgId=" + orgId +", address=" + address + ", phone=" + phone + ", isActive="+ isActive;
 	}
 }

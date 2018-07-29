@@ -6,7 +6,11 @@ package com.ajax.restapiproject.view;
 public class ExceptionView {
 	
 	public String error;
-
+	
+	/**
+	 * Constructor for initializing class fields 
+	 * @param error
+	 */
 	public ExceptionView(String error) {
 		this.error = error;
 	}

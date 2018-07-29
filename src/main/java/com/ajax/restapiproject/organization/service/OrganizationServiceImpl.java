@@ -231,5 +231,31 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		return viewResp;
 	}
+	
+	/* 
+	 * Method for deleting an organization by Id
+	 */
+	@Override
+	public SuccessView deleteById(String id){
+		
+		logger.info("Request by id, deleteById method: "+ id);
+		
+		String deleteByIdValError = (orgVal.valId(id, true));
+		
+		if(!deleteByIdValError.isEmpty()) {
+			throw new BadRequestException(deleteByIdValError);
+		}
+		
+		Organization org = orgDao.loadById(Long.parseLong(id));
+				
+		if(org==null) {
+			throw new NotFoundException("Organization");
+		}
+		
+		orgDao.delete(org);
 
+		SuccessView viewResp = new SuccessView("success");
+		
+		return viewResp;
+	}
 }

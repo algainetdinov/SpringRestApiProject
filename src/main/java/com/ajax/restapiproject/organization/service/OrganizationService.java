@@ -18,4 +18,6 @@ public interface OrganizationService {
 	SuccessView save (OrganizationSaveViewReq reqView);
 	
 	SuccessView update (OrganizationUpdateViewReq reqView);
+	
+	SuccessView deleteById (String id);
 }
