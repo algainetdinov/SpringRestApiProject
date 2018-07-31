@@ -5,7 +5,7 @@ package com.ajax.restapiproject.user.view;
  */
 public class UserListViewReq {
 	
-	public Long officeId;
+	public String officeId;
 	
 	public String firstName;
 	

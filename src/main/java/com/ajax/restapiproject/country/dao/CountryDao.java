@@ -17,10 +17,10 @@ public interface CountryDao {
 	/**
 	 * Find country by code
 	 */
-	Country findByCode (String code);
+	Country loadByCode (String code);
 	
 	/**
 	 * Find country by ID
 	 */
-	Country findById (Long id);	
+	Country loadById (Long id);	
 }

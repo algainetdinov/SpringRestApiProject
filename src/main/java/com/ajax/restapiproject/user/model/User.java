@@ -1,5 +1,6 @@
 package com.ajax.restapiproject.user.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -23,7 +24,7 @@ public class User extends Person{
 	 * Flag about person identification
 	 */
 	@Column(name = "is_identified")
-	private boolean isIdentified;
+	private Boolean isIdentified;
 	
 	/**
 	 * Person's position in organization
@@ -47,7 +48,7 @@ public class User extends Person{
 	/**
 	 * Person's document
 	 */
-	@OneToOne
+	@OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
 	@JoinColumn(name="doc_id") 
 	private Document doc;
 	
@@ -58,11 +59,11 @@ public class User extends Person{
 	@JoinColumn(name = "citiz_id")
 	private Country country;
 
-	public boolean isIdentified() {
+	public Boolean getIsIdentified() {
 		return isIdentified;
 	}
 
-	public void setIdentified(boolean isIdentified) {
+	public void setIsIdentified(Boolean isIdentified) {
 		this.isIdentified = isIdentified;
 	}
 
@@ -96,5 +97,21 @@ public class User extends Person{
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	@Override
+	public String toString() {
+		return "User [getIsIdentified()=" + getIsIdentified() + ", getPosition()=" + getPosition() + ", getOffice()="
+				+ getOffice() + ", getDoc()=" + getDoc() + ", getCountry()=" + getCountry() + ", getPhone()="
+				+ getPhone() + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName()
+				+ ", getMiddleName()=" + getMiddleName() + ", getId()=" + getId() + "]";
 	}
 }

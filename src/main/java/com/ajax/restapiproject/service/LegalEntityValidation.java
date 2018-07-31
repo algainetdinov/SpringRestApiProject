@@ -26,7 +26,7 @@ public class LegalEntityValidation extends Validation{
 		}
 		
 		else if (StringUtils.isNotBlank(name)) {
-			if (name.length()<5||name.length()>64) {
+			if (name.length()<5 || name.length()>64) {
 			nameError.add("Name length should be between 5 and 64 characters");
 			}			
 		}
@@ -48,7 +48,7 @@ public class LegalEntityValidation extends Validation{
 		}
 		
 		else if (StringUtils.isNotBlank(address)) {
-			if (address.length()<5||address.length()>64) {
+			if (address.length()<5 || address.length()>64) {
 				addressError.add("Address length should be between 5 and 64 characters");
 			}
 		}	

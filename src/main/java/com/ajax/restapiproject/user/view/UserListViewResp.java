@@ -4,7 +4,8 @@ package com.ajax.restapiproject.user.view;
  * View for displaying user data retrieved by /list request
  */
 public class UserListViewResp {
-	public Long id;
+	
+	public String id;
 	
 	public String firstName;
 	
@@ -22,7 +23,7 @@ public class UserListViewResp {
 	 * @param middleName
 	 * @param position
 	 */
-	public UserListViewResp(Long id, String firstName, String lastName, String middleName, String position) {
+	public UserListViewResp(String id, String firstName, String lastName, String middleName, String position) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;

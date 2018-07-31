@@ -1,6 +1,5 @@
 package com.ajax.restapiproject.user.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.MediaType;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ajax.restapiproject.user.dao.UserDao;
+import com.ajax.restapiproject.user.service.UserService;
 import com.ajax.restapiproject.user.view.UserIdViewResp;
 import com.ajax.restapiproject.user.view.UserListViewReq;
 import com.ajax.restapiproject.user.view.UserListViewResp;
@@ -27,44 +26,41 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 	
-	private UserDao userDao;
+	private UserService userService;
 	
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 	
-	
-	/**
-	 * Since there is no service and DAO yet, initialize view with test data
-	 */
 	@ApiOperation("Returns list of users belonging to specified office")
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public List<UserListViewResp> listOffice(@RequestBody UserListViewReq user) {
-		List<UserListViewResp> users = new ArrayList <UserListViewResp>();
-		UserListViewResp userOne = new UserListViewResp(4L, user.firstName, user.lastName, 
-				user.middleName, user.position);
-		users.add(userOne);
-		return users;
+	public List<UserListViewResp> listByOffice(@RequestBody UserListViewReq reqView) {
+		return userService.loadByOffice(reqView);
 	}
 	
 	@ApiOperation("Returns a user specified by ID")
 	@RequestMapping(value = "/{id}", method= RequestMethod.GET)
-    public UserIdViewResp getUserById(@PathVariable Long id){
-		
-		UserIdViewResp user = new UserIdViewResp(String.valueOf(id), "Остап", "Бендер", 
-				"Берта Мария", "Разработчик", "8 (347) 276-61-76", "Паспорт РСФСР", 
-				"1111-11", "22.11.2010", "РСФСР", "001", "true");		
-        return user;
+    public UserIdViewResp getUserById(@PathVariable String id){
+		return userService.loadById(id);
     }
 	
 	@ApiOperation("Updates a user with provided data")
 	@RequestMapping(value = "/update", method= RequestMethod.POST)
-    public SuccessView updateUser(@RequestBody UserUpdateViewReq updateUser){
-		SuccessView success = new SuccessView("success");
-		return success;
+    public SuccessView updateUser(@RequestBody UserUpdateViewReq reqView){
+		return userService.update(reqView);
     }
 	
 	@ApiOperation("Creates a user with provided data")
 	@RequestMapping(value = "/save", method= RequestMethod.POST)
-    public SuccessView saveUser(@RequestBody UserSaveViewReq saveUser){
-		SuccessView success = new SuccessView("success");
-		return success;
+    public SuccessView saveUser(@RequestBody UserSaveViewReq reqView){
+		return userService.save(reqView);
     }
+	
+	@ApiOperation("Deletes a user specified by Id")
+	@RequestMapping(value = "delete/{id}", method= RequestMethod.GET)
+    public SuccessView deleteUserById(@PathVariable String id){
+		return userService.deleteById(id);
+    }
+	
+	
 }

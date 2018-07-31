@@ -1,10 +1,12 @@
 package com.ajax.restapiproject.organization.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -39,8 +41,8 @@ public class Organization extends LegalEntity{
 	/**
 	 * List of related offices
 	 */
-	@OneToMany(mappedBy="org", cascade = CascadeType.ALL)
-	private List<Office> offices;
+	@OneToMany(mappedBy="org", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<Office> offices = new ArrayList<Office>();
 	
 	/**
 	 * Call superclass constructor in order to initialize isActive field
@@ -79,11 +81,12 @@ public class Organization extends LegalEntity{
 
 	public void setOffices(List<Office> offices) {
 		this.offices = offices;
-	}	
+	}
 
 	@Override
 	public String toString() {
-		return "Organization [id="+getId()+", name=" + getName() +", fullName=" + fullName + ", inn=" + inn + ", kpp=" + kpp + 
-				", phone=" + getPhone() + ", address=" + getAddress() + ", isActive=" + getIsActive()+"]";
-	}	
+		return "Organization [getFullName()=" + getFullName() + ", getInn()=" + getInn() + ", getKpp()=" + getKpp()
+				+ ", getName()=" + getName() + ", getPhone()=" + getPhone()
+				+ ", getAddress()=" + getAddress() + ", getIsActive()=" + getIsActive() + ", getId()=" + getId() + "]";
+	}		
 }

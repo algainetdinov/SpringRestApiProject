@@ -65,4 +65,10 @@ public class Document extends BaseEntity{
 	public void setType(Doctype type) {
 		this.type = type;
 	}
+
+	@Override
+	public String toString() {
+		return "Document [getDocDate()=" + getDocDate() + ", getDocNumber()=" + getDocNumber() + ", getType()="
+				+ getType() + ", getId()=" + getId() + "]";
+	}
 }

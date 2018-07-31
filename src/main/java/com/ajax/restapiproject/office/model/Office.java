@@ -1,9 +1,11 @@
 package com.ajax.restapiproject.office.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -27,8 +29,8 @@ public class Office extends LegalEntity{
 	@JoinColumn(name = "org_id")
 	private Organization org;
 	
-	@OneToMany(mappedBy="office", cascade = CascadeType.ALL)
-	private List<User> users;
+	@OneToMany(mappedBy="office", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<User> users = new ArrayList<User>();
 	
 	/**
 	 * Call superclass constructor in order to initialize isActive field
@@ -55,7 +57,7 @@ public class Office extends LegalEntity{
 
 	@Override
 	public String toString() {
-		return "Office [getOrg()=" + getOrg().getId() + ", getUsers()=" + getUsers() + ", getName()=" + getName()
+		return "Office [getOrg()=" + getOrg() + ", getName()=" + getName()
 				+ ", getPhone()=" + getPhone() + ", getAddress()=" + getAddress() + ", getIsActive()=" + getIsActive()
 				+ ", getId()=" + getId() + "]";
 	}

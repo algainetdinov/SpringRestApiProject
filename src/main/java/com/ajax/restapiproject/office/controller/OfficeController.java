@@ -57,4 +57,10 @@ public class OfficeController {
     public SuccessView saveOrg(@RequestBody OfficeSaveViewReq reqView){
 		return officeService.save(reqView);
     }
+	
+	@ApiOperation("Deletes an office by Id")
+	@RequestMapping(value = "/delete/{id}", method= RequestMethod.GET)
+    public SuccessView delete(@PathVariable String id){
+		return officeService.deleteById(id);
+    }
 }

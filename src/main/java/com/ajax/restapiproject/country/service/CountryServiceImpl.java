@@ -32,7 +32,7 @@ public class CountryServiceImpl implements CountryService{
 	 */
 	@Override
 	public Country getCountryById(Long id) {
-		return countryDao.findById(id);
+		return countryDao.loadById(id);
 	}
 
 	/**

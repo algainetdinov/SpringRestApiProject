@@ -22,7 +22,7 @@ public class OrganizationValidation extends LegalEntityValidation{
 	
 	/**
 	 * Validate provided full name
-	 * @param id
+	 * @param fullName
 	 * @param isRequired
 	 * @return
 	 */
@@ -35,7 +35,7 @@ public class OrganizationValidation extends LegalEntityValidation{
 		}
 		
 		else if (StringUtils.isNotBlank(fullName)) {
-			if (fullName.length()<7||fullName.length()>128) {
+			if (fullName.length()<7 || fullName.length()>128) {
 				fullNameError.add("Full name length should be between 5 and 64 characters");
 			}
 		}	

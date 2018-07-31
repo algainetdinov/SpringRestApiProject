@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ajax.restapiproject.doctype.dao.DoctypeDao;
 import com.ajax.restapiproject.doctype.model.Doctype;
 import com.ajax.restapiproject.view.DictionaryView;
 
+/**
+ * Doctype service implementation
+ * @author Al
+ *
+ */
+@Service
 public class DoctypeServiceImpl implements DoctypeService {
 
 	private DoctypeDao doctypeDao;
@@ -20,13 +27,12 @@ public class DoctypeServiceImpl implements DoctypeService {
 	
 	@Override
 	public Doctype findById(Long id) {
-		return doctypeDao.findById(id);
+		return doctypeDao.loadById(id);
 	}
 
 	@Override
 	public Doctype findByCode(String code) {
-		// TODO Auto-generated method stub
-		return null;
+		return doctypeDao.loadByCode(code);
 	}
 
 	@Override

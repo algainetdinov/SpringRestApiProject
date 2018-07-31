@@ -18,10 +18,10 @@ public interface DoctypeDao {
 	/**
 	 * Find country by code
 	 */
-	Doctype findByCode (String code);
+	Doctype loadByCode (String code);
 	
 	/**
 	 * Find country by ID
 	 */
-	Doctype findById (Long id);	
+	Doctype loadById (Long id);	
 }

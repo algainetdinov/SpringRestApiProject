@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.ajax.restapiproject.exception.BadRequestException;
 import com.ajax.restapiproject.exception.NotFoundException;
+import com.ajax.restapiproject.office.model.Office;
 import com.ajax.restapiproject.organization.dao.OrganizationDao;
 import com.ajax.restapiproject.organization.model.Organization;
 import com.ajax.restapiproject.organization.view.OrganizationIdViewResp;
@@ -250,6 +251,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 				
 		if(org==null) {
 			throw new NotFoundException("Organization");
+		}
+		
+		for (Office office: org.getOffices()) {
+			office.setOrg(null);
 		}
 		
 		orgDao.delete(org);

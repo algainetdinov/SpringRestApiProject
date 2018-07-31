@@ -1,11 +1,8 @@
 package com.ajax.restapiproject.user.dao;
 
-import com.ajax.restapiproject.user.view.UserIdViewResp;
-import com.ajax.restapiproject.user.view.UserListViewReq;
-import com.ajax.restapiproject.user.view.UserListViewResp;
-import com.ajax.restapiproject.user.view.UserSaveViewReq;
-import com.ajax.restapiproject.user.view.UserUpdateViewReq;
-import com.ajax.restapiproject.view.SuccessView;
+import java.util.List;
+
+import com.ajax.restapiproject.user.model.User;
 
 /**
  * User DAO
@@ -13,12 +10,12 @@ import com.ajax.restapiproject.view.SuccessView;
  *
  */
 public interface UserDao {
-
-	UserIdViewResp findById(Long id);
 	
-	UserListViewResp findByOfficeId(UserListViewReq reqView);
+	User loadById(Long id);
 	
-	SuccessView update(UserUpdateViewReq reqView);
+	List<User> findByOfficeId(User user);
+		
+	void save(User user);
 	
-	SuccessView save(UserSaveViewReq reqView);
+	void delete(User user);
 }

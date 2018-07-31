@@ -5,7 +5,7 @@ package com.ajax.restapiproject.user.view;
  */
 public class UserUpdateViewReq {
 	
-	public Long id;
+	public String id;
 	
 	public String firstName;
 	
@@ -17,17 +17,15 @@ public class UserUpdateViewReq {
 	
 	public String phone;
 	
-	public String docName;
+	public String docCode;
 	
 	public String docNumber;
 	
 	public String docDate;
-	
-	public String citizenshipName;
-	
+		
 	public String citizenshipCode;
 	
-	public boolean isIdentified;
+	public String isIdentified;
 	
 	/**
 	 * Default constructor 
@@ -38,8 +36,7 @@ public class UserUpdateViewReq {
 	@Override
 	public String toString() {
 		return "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName="
-				+ middleName + ", position=" + position + ", phone=" + phone + ", docName=" + docName + ", docNumber="
-				+ docNumber + ", docDate=" + docDate + ", citizenshipName=" + citizenshipName + ", citizenshipCode="
-				+ citizenshipCode + ", isIdentified=" + isIdentified;
+				+ middleName + ", position=" + position + ", phone=" + phone + ", docCode=" + docCode + ", docNumber="
+				+ docNumber + ", docDate=" + docDate + ", citizenshipCode="	+ citizenshipCode + ", isIdentified=" + isIdentified;
 	}
 }

@@ -15,9 +15,9 @@ public class UserSaveViewReq {
 	
 	public String phone;
 	
-	public String docCode;
+	public String officeId;
 	
-	public String docName;
+	public String docCode;
 	
 	public String docNumber;
 	
@@ -25,7 +25,7 @@ public class UserSaveViewReq {
 		
 	public String citizenshipCode;
 	
-	public boolean isIdentified;
+	public String isIdentified;
 	
 	/**
 	 * Default constructor
@@ -35,9 +35,9 @@ public class UserSaveViewReq {
 
 	@Override
 	public String toString() {
-		return "firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName
-				+ ", position=" + position + ", phone=" + phone + ", docCode=" + docCode + ", docName=" + docName
+		return "UserSaveViewReq [firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName
+				+ ", position=" + position + ", phone=" + phone + ", officeId=" + officeId + ", docCode=" + docCode
 				+ ", docNumber=" + docNumber + ", docDate=" + docDate + ", citizenshipCode=" + citizenshipCode
-				+ ", isIdentified=" + isIdentified;
+				+ ", isIdentified=" + isIdentified + "]";
 	}
 }

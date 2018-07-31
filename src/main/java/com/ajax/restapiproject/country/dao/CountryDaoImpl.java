@@ -36,9 +36,9 @@ public class CountryDaoImpl implements CountryDao{
 	 * Implement logic for a getting country with specified code (unique value)
 	 */
 	@Override
-	public Country findByCode (String code) {
-		TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c WHERE c.code = :code", Country.class);
-		Country country = query.getSingleResult();
+	public Country loadByCode (String code) {
+		TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c WHERE c.code = :code", Country.class).setParameter("code", code);
+		Country country = query.getResultList().stream().findFirst().orElse(null);
 		return country;
 	}
 	
@@ -46,7 +46,7 @@ public class CountryDaoImpl implements CountryDao{
 	 * Implement logic for a getting country by ID
 	 */
 	@Override
-	public Country findById (Long id) {
+	public Country loadById (Long id) {
 		return em.find(Country.class, id);
 	}	
 }

@@ -259,7 +259,9 @@ public class OfficeServiceImpl implements OfficeService {
 			throw new NotFoundException("Organization");
 		}
 		
-		officeDao.delete(office);
+		office.getOrg().getOffices().remove(office);
+		
+		office.setOrg(null);
 
 		SuccessView viewResp = new SuccessView("success");
 		
