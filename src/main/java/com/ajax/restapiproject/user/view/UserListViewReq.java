@@ -23,5 +23,33 @@ public class UserListViewReq {
 	 * Default constructor
 	 */
 	public UserListViewReq() {
+	}
+
+	public String getOfficeId() {
+		return officeId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public String getDocCode() {
+		return docCode;
+	}
+
+	public String getCitizenshipCode() {
+		return citizenshipCode;
 	}	
 }

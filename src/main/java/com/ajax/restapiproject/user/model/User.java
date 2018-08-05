@@ -58,6 +58,14 @@ public class User extends Person{
 	@ManyToOne
 	@JoinColumn(name = "citiz_id")
 	private Country country;
+	
+	public User() {
+		super();
+	}
+	
+	public User(Long id) {
+		this.setId(id);
+	}
 
 	public Boolean getIsIdentified() {
 		return isIdentified;

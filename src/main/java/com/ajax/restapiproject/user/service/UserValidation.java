@@ -24,6 +24,10 @@ public class UserValidation extends Validation {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	public UserValidation () {
+		df.setLenient(false);
+	}
+		
 	/**
 	 * Validate provided first name
 	 * @param firstName
@@ -39,7 +43,7 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(firstName)) {
-			if (firstName.length()<3 || firstName.length()>32) {
+			if (firstName.trim().length()<3 || firstName.trim().length()>32) {
 				firstNameError.add("First name length should be between 3 and 32 characters");
 			}
 		}	
@@ -62,7 +66,7 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(lastName)) {
-			if (lastName.length()<3 || lastName.length()>32) {
+			if (lastName.trim().length()<3 || lastName.trim().length()>32) {
 				lastNameError.add("Last name length should be between 3 and 32 characters");
 			}
 		}	
@@ -85,7 +89,7 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(middleName)) {
-			if (middleName.length()<3 || middleName.length()>32) {
+			if (middleName.trim().length()<3 || middleName.trim().length()>32) {
 				middleNameError.add("Middle name length should be between 3 and 32 characters");
 			}
 		}	
@@ -108,7 +112,7 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(position)) {
-			if (position.length()<5 || position.length()>32) {
+			if (position.trim().length()<5 || position.trim().length()>32) {
 				positionError.add("Position name length should be between 5 and 32 characters");
 			}
 		}	
@@ -152,12 +156,12 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(docCode)) {
-			if (docCode.length()!=2) {
+			if (docCode.trim().length()!=2) {
 				docCodeError.add("Document type code length should be 2 digits");
 			}
 			try {
-				Long.parseLong(docCode);
-				if (Integer.parseInt(docCode)<1) {
+				Long.parseLong(docCode.trim());
+				if (Integer.parseInt(docCode.trim())<1) {
 					docCodeError.add("Document type code should be a positive number");
 				}
 			}
@@ -185,7 +189,7 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(docNumber)) {
-			if (docNumber.length()<3 || docNumber.length()>32) {
+			if (docNumber.trim().length()<3 || docNumber.trim().length()>32) {
 				docNumberError.add("Document number length should be between 3 and 32 characters");
 			}
 		}
@@ -208,12 +212,12 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(docDate)) {
-			if (docDate.length()!=10) {
+			if (docDate.trim().length()!=10) {
 				docDateError.add("Document date should be in a DD.MM.YYYY format");
 			}
 			else {
 				try {
-				    df.parse(docDate); 
+				    df.parse(docDate.trim()); 
 				}
 				catch (ParseException e) {
 					logger.error("Parse date exception: ", e);
@@ -244,8 +248,8 @@ public class UserValidation extends Validation {
 				citizCodeError.add("Citizenship code length should be 3 digits");
 			}
 			try {
-				Long.parseLong(citizCode);
-				if (Integer.parseInt(citizCode)<1) {
+				Long.parseLong(citizCode.trim());
+				if (Integer.parseInt(citizCode.trim())<1) {
 					citizCodeError.add("Citizenship code should be a positive number");
 				}
 			}

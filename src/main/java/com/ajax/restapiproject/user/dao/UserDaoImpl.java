@@ -36,42 +36,49 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	public List<User> findAll() {
+		
+		TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+        return query.getResultList();
+	}
+	
+	@Override
 	public List<User> findByOfficeId(User user) {
 		
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		
 		CriteriaQuery<User> cq = cb.createQuery(User.class);
 		
-		Root<User> orgRoot = cq.from(User.class);
+		Root<User> userRoot = cq.from(User.class);
 		
 		List<Predicate> preList = new ArrayList<Predicate>();
 		
-		Predicate officePre = cb.equal(orgRoot.get("office"), user.getOffice());
+		Predicate officePre = cb.equal(userRoot.get("office"), user.getOffice());
 		
 		preList.add(officePre);
 		
 		if (user.getFirstName()!=null) {
-			Predicate firstNamePre = cb.equal(orgRoot.get("firstName"), user.getFirstName());
+			Predicate firstNamePre = cb.equal(userRoot.get("firstName"), user.getFirstName());
 			preList.add(firstNamePre);
 		}
 		
 		if (user.getLastName()!=null) {
-			Predicate lastNamePre = cb.equal(orgRoot.get("lastName"), user.getLastName());
+			Predicate lastNamePre = cb.equal(userRoot.get("lastName"), user.getLastName());
 			preList.add(lastNamePre);
 		}
 		
 		if (StringUtils.isNotBlank(user.getMiddleName())) {
-			Predicate middleNamePre = cb.equal(orgRoot.get("middleName"), user.getMiddleName());
+			Predicate middleNamePre = cb.equal(userRoot.get("middleName"), user.getMiddleName());
 			preList.add(middleNamePre);
 		}
 		
 		if (user.getDoc()!=null) {
-			Predicate docTypePre = cb.equal(orgRoot.get("doc").get("type"), user.getDoc().getType());
+			Predicate docTypePre = cb.equal(userRoot.get("doc").get("type"), user.getDoc().getType());
 			preList.add(docTypePre);
 		}
 		
 		if (StringUtils.isNotBlank(user.getPosition())) {
-			Predicate positionPre = cb.equal(orgRoot.get("position"), user.getPosition());
+			Predicate positionPre = cb.equal(userRoot.get("position"), user.getPosition());
 			preList.add(positionPre);
 		}
 		

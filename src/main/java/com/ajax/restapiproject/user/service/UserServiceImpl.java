@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService{
 	
 	public UserServiceImpl(UserDao userDao, UserValidation userVal, DoctypeDao doctypeDao, OfficeDao officeDao, 
 			CountryDao countryDao) {
+		df.setLenient(false);
 		this.userDao=userDao;
 		this.userVal=userVal;
 		this.doctypeDao=doctypeDao;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService{
 		
 		String loadByIdValError = (userVal.valId(id, true));
 		
-		if(!loadByIdValError.isEmpty()) {
+		if(StringUtils.isNotBlank(loadByIdValError)) {
 			throw new BadRequestException(loadByIdValError);
 		}
 		
@@ -111,6 +112,7 @@ public class UserServiceImpl implements UserService{
 		Office office = officeDao.loadById(Long.parseLong(reqView.officeId));
 		
 		if (office == null) {
+			logger.error("loadByOffice method, office with id: "+ reqView.officeId + " is not found");
 			throw new NotFoundException("Office");
 		}
 		
@@ -156,8 +158,12 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		
+		logger.info("loadByOffice method, search of Office by User: "+ user);
 		
 		List<User> userList = userDao.findByOfficeId(user);
+		
+		logger.info("loadByOffice method, list of users: "+ userList);
+		
 		List <UserListViewResp> viewResp = new ArrayList<UserListViewResp>();
 		
 		for (User currentUser:userList) {
@@ -197,6 +203,10 @@ public class UserServiceImpl implements UserService{
 			);
 		}
 		
+		if(!saveValErrors.isEmpty()) {
+			throw new BadRequestException(saveValErrors);
+		}
+		
 		Office office = officeDao.loadById(Long.parseLong(reqView.officeId));
 		
 		if (office == null) {
@@ -206,6 +216,8 @@ public class UserServiceImpl implements UserService{
 		User user = new User();
 		
 		user.setOffice(office);
+		
+		office.getUsers().add(user);
 		
 		if (StringUtils.isNotBlank(reqView.firstName)) {
 			user.setFirstName(reqView.firstName.trim());
@@ -374,6 +386,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public SuccessView deleteById(String id) {
+		
 		logger.info("Request by id, deleteById method: "+ id);
 		
 		String deleteByIdValError = (userVal.valId(id, true));

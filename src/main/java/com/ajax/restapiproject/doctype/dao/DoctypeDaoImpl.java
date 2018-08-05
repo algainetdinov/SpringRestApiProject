@@ -12,12 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import com.ajax.restapiproject.doctype.model.Doctype;
 
-@Repository
 /**
  * Doctype DAO implementation
  * @author Al
  *
  */
+@Repository
 public class DoctypeDaoImpl implements DoctypeDao {
 
 	private final EntityManager em;

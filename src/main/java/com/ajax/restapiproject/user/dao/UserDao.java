@@ -14,6 +14,8 @@ public interface UserDao {
 	User loadById(Long id);
 	
 	List<User> findByOfficeId(User user);
+	
+	List<User> findAll();
 		
 	void save(User user);
 	
