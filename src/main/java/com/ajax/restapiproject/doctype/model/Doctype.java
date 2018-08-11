@@ -17,7 +17,7 @@ import com.ajax.restapiproject.model.DictionaryEntity;
 @Entity
 @Table(name = "doctype")
 @AttributeOverride(column = @Column(name = "name", unique = true, length = 128, nullable = false), name = "name")
-public class Doctype2 extends DictionaryEntity{
+public class Doctype extends DictionaryEntity{
 
 	/**
 	 * toString method
