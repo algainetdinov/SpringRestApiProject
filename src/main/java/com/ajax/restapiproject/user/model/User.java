@@ -3,6 +3,7 @@ package com.ajax.restapiproject.user.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -33,7 +34,7 @@ public class User extends Person{
 	private String position;
 	
 	/**
-	 * Person's position in organization
+	 * Person's phone number
 	 */
 	@Column(name = "phone", length = 18)
 	private String phone;
@@ -41,7 +42,7 @@ public class User extends Person{
 	/**
 	 * Person's office
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="office_id") 
 	private Office office;
 	
@@ -55,18 +56,10 @@ public class User extends Person{
 	/**
 	 * Person's citizenship
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "citiz_id")
 	private Country country;
 	
-	public User() {
-		super();
-	}
-	
-	public User(Long id) {
-		this.setId(id);
-	}
-
 	public Boolean getIsIdentified() {
 		return isIdentified;
 	}

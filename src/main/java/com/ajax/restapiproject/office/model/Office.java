@@ -25,7 +25,7 @@ public class Office extends LegalEntity{
 	/**
 	 * Reference for a organization office belongs to
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "org_id")
 	private Organization org;
 	

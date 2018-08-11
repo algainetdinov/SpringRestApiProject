@@ -2,9 +2,9 @@ package com.ajax.restapiproject.document.model;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,23 +22,22 @@ import com.ajax.restapiproject.model.BaseEntity;
 public class Document extends BaseEntity{
 	
 	/**
-	 * Date of issuing document
+	 * Date of issuing a document
 	 */
-	@Basic
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date")
 	private Date docDate;
 	
 	/**
-	 * Date of issuing document
+	 * Number of a document
 	 */
 	@Column(name = "number", length = 32, nullable = true)
 	private String docNumber;
 	
 	/**
-	 * Date of issuing a document
+	 * Type of a document
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "type_code")
 	private Doctype type;
 
