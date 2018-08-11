@@ -5,6 +5,8 @@
 target/
 build/
 .gradle/
+mvnw.cmd
+mvnw
 gradle-app.setting
 _gsdata_/
 __*__.gradle
