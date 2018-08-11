@@ -5,6 +5,7 @@
 target/
 build/
 .gradle/
+.mvn/
 mvnw.cmd
 mvnw
 gradle-app.setting

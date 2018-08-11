@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @RestController
 @RequestMapping(value = "/api/docs", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DoctypeController {
+public class DoctypeController2 {
 	
 	private DoctypeService doctypeService;
 	
@@ -29,7 +29,7 @@ public class DoctypeController {
 	 * @param doctypeService
 	 */
 	@Autowired
-	public DoctypeController (DoctypeService doctypeService) {
+	public DoctypeController2 (DoctypeService doctypeService) {
 		this.doctypeService = doctypeService;
 	}
 	
