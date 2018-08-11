@@ -21,24 +21,36 @@ public class DoctypeServiceImpl implements DoctypeService {
 	private DoctypeDao doctypeDao;
 	
 	@Autowired
-	public DoctypeServiceImpl (DoctypeDao doctypeDao) {
+	public DoctypeServiceImpl(DoctypeDao doctypeDao) {
+		
 		this.doctypeDao = doctypeDao;
 	}
 	
+	/**
+	 * Find doctype by Id
+	 */
 	@Override
-	public Doctype findById(Long id) {
-		return doctypeDao.loadById(id);
-	}
-
-	@Override
-	public Doctype findByCode(String code) {
-		return doctypeDao.loadByCode(code);
-	}
-
-	@Override
-	public List<DictionaryView> findAll() {
+	public Doctype loadById(Long id) {
 		
-		List<Doctype> doctypeList = doctypeDao.getDoctypes();
+		return doctypeDao.findById(id);
+	}
+
+	/**
+	 * Find doctype by code
+	 */
+	@Override
+	public Doctype loadByCode(String code) {
+		
+		return doctypeDao.findByCode(code);
+	}
+
+	/**
+	 * Retrieve all doctypes
+	 */
+	@Override
+	public List<DictionaryView> loadAll() {
+		
+		List<Doctype> doctypeList = doctypeDao.findAll();
 		
 		List<DictionaryView> dicView = new ArrayList<>();
 		
@@ -47,6 +59,7 @@ public class DoctypeServiceImpl implements DoctypeService {
 			dicView.add(new DictionaryView(doctype.getCode(), doctype.getName()));
 		
 		}
+		
 		return dicView;
 	}
 

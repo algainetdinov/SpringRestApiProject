@@ -140,7 +140,7 @@ public class UserControllerTests {
 		 * @throws Exception
 		 */
 		@Test
-		public void deleteTest() throws Exception {
+		public void deleteByIdTest() throws Exception {
 			
 			RequestBuilder request = MockMvcRequestBuilders
 					.get("/api/user/delete/1")

@@ -10,19 +10,44 @@ import com.ajax.restapiproject.office.view.OfficeUpdateViewReq;
 import com.ajax.restapiproject.view.SuccessView;
 
 /**
- * Service for Office entity
+ * Service interface for Office entity
  * @author Al
  *
  */
 public interface OfficeService {
 
+	/**
+	 * Load an office by Id
+	 * @param id
+	 * @return
+	 */
 	OfficeIdViewResp loadById(String id);
 	
+	/**
+	 * Load an office by organization
+	 * @param reqView
+	 * @return
+	 */
 	List<OfficeListViewResp> loadByOrg(OfficeListViewReq reqView);
 	
-	SuccessView save (OfficeSaveViewReq reqView);
+	/**
+	 * Save an office
+	 * @param reqView
+	 * @return
+	 */
+	SuccessView save(OfficeSaveViewReq reqView);
 	
-	SuccessView update (OfficeUpdateViewReq reqView);
+	/**
+	 * Update an office
+	 * @param reqView
+	 * @return
+	 */
+	SuccessView update(OfficeUpdateViewReq reqView);
 	
-	SuccessView deleteById (String id);
+	/**
+	 * Delete an office
+	 * @param id
+	 * @return
+	 */
+	SuccessView deleteById(String id);
 }

@@ -26,7 +26,7 @@ public class OrganizationValidation extends LegalEntityValidation{
 	 * @param isRequired
 	 * @return
 	 */
-	public String valFullName (String fullName, boolean isRequired) {
+	public String valFullName(String fullName, boolean isRequired) {
 
 		StringJoiner fullNameError = new StringJoiner(". ");
 		
@@ -35,8 +35,8 @@ public class OrganizationValidation extends LegalEntityValidation{
 		}
 		
 		else if (StringUtils.isNotBlank(fullName)) {
-			if (fullName.length()<7 || fullName.length()>128) {
-				fullNameError.add("Full name length should be between 5 and 64 characters");
+			if (fullName.trim().length()<7 || fullName.trim().length()>64) {
+				fullNameError.add("Full name length should be between 7 and 64 characters");
 			}
 		}	
 		
@@ -49,13 +49,14 @@ public class OrganizationValidation extends LegalEntityValidation{
 	 * @param isRequired
 	 * @return
 	 */
-	public String valInn (String inn, boolean isRequired) {
+	public String valInn(String inn, boolean isRequired) {
 		
 		StringJoiner innError = new StringJoiner(". ");
 		
 		if (isRequired && StringUtils.isBlank(inn)) {
 			innError.add("INN should be provided");
 		}
+		
 		else if (StringUtils.isNotBlank(inn) && (!INN_PATTERN.matcher(inn).matches())) {
 			innError.add("INN should be 10 digit number");
 		}
@@ -70,13 +71,14 @@ public class OrganizationValidation extends LegalEntityValidation{
 	 * @param isRequired
 	 * @return
 	 */
-	public String valKpp (String kpp, boolean isRequired) {
+	public String valKpp(String kpp, boolean isRequired) {
 		
 		StringJoiner kppError = new StringJoiner(". ");
 		
 		if (isRequired && StringUtils.isBlank(kpp)) {
 			kppError.add("KPP should be provided");
 		}
+		
 		else if (StringUtils.isNotBlank(kpp) && (!KPP_PATTERN.matcher(kpp).matches())) {
 			kppError.add("KPP should be 9 digit number");
 		}	

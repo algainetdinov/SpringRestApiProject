@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ajax.restapiproject.country.dao.CountryDao;
@@ -25,6 +26,7 @@ import com.ajax.restapiproject.office.dao.OfficeDao;
 import com.ajax.restapiproject.office.model.Office;
 import com.ajax.restapiproject.user.dao.UserDao;
 import com.ajax.restapiproject.user.model.User;
+import com.ajax.restapiproject.user.model.UserMapper;
 import com.ajax.restapiproject.user.view.UserIdViewResp;
 import com.ajax.restapiproject.user.view.UserListViewReq;
 import com.ajax.restapiproject.user.view.UserListViewResp;
@@ -34,6 +36,13 @@ import com.ajax.restapiproject.view.SuccessView;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 
+import ma.glasnost.orika.MappingContext;
+
+/**
+ * User service implementation
+ * @author Al
+ *
+ */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
@@ -50,18 +59,35 @@ public class UserServiceImpl implements UserService{
 		
 	private final UserValidation userVal;
 	
+	private final UserMapper userMapper;
+	
 	private final DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 	
+	/**
+	 * Constructor to set final fields
+	 * @param userDao
+	 * @param userVal
+	 * @param doctypeDao
+	 * @param officeDao
+	 * @param countryDao
+	 * @param userMapper
+	 */
+	@Autowired
 	public UserServiceImpl(UserDao userDao, UserValidation userVal, DoctypeDao doctypeDao, OfficeDao officeDao, 
-			CountryDao countryDao) {
+			CountryDao countryDao, UserMapper userMapper) {
+		
 		df.setLenient(false);
 		this.userDao=userDao;
 		this.userVal=userVal;
 		this.doctypeDao=doctypeDao;
 		this.officeDao=officeDao;
 		this.countryDao=countryDao;
+		this.userMapper=userMapper;
 	}
 	
+	/**
+	 * Retrieve user by Id
+	 */
 	@Override
 	public UserIdViewResp loadById(String id) {
 
@@ -73,7 +99,7 @@ public class UserServiceImpl implements UserService{
 			throw new BadRequestException(loadByIdValError);
 		}
 		
-		User user = userDao.loadById(Long.parseLong(id));
+		User user = userDao.findById(Long.parseLong(id));
 		
 		if(user == null) {
 			throw new NotFoundException("User");
@@ -88,6 +114,10 @@ public class UserServiceImpl implements UserService{
 		
 		return viewResp;
 	}
+	
+	/**
+	 * Retrieve users by office
+	 */
 	@Override
 	public List<UserListViewResp> loadByOffice(UserListViewReq reqView) {
 		
@@ -105,68 +135,63 @@ public class UserServiceImpl implements UserService{
 				Strings.emptyToNull(userVal.valCitizCode(reqView.citizenshipCode, false))
 		);
 		
-		if(!loadByOrgValErrors.isEmpty()) {
+		if(StringUtils.isNotBlank(loadByOrgValErrors)) {
 			throw new BadRequestException(loadByOrgValErrors);
 		}
 		
-		Office office = officeDao.loadById(Long.parseLong(reqView.officeId));
+		Office office = officeDao.findById(Long.parseLong(reqView.officeId));
 		
 		if (office == null) {
 			logger.error("loadByOffice method, office with id: "+ reqView.officeId + " is not found");
 			throw new NotFoundException("Office");
 		}
 		
-		User user = new User();
+		MappingContext context = new MappingContext.Factory().getContext();
 		
-		user.setOffice(office);
-		
-		if (StringUtils.isNotBlank(reqView.firstName)) {
-			user.setFirstName(reqView.firstName.trim());
-		}
-		
-		if (StringUtils.isNotBlank(reqView.lastName)) {
-			user.setLastName(reqView.lastName.trim());
-		}
-		
-		if (StringUtils.isNotBlank(reqView.middleName)) {
-			user.setMiddleName(reqView.middleName.trim());
-		}
-		
-		if (StringUtils.isNotBlank(reqView.position)) {
-			user.setPosition(reqView.position.trim());
-		}		
-		
+		context.setProperty("office", office);
+				
 		if (StringUtils.isNotBlank(reqView.docCode)) {
-			Doctype doctype = doctypeDao.loadByCode(reqView.docCode.trim());
+			
+			Doctype doctype = doctypeDao.findByCode(reqView.docCode.trim());
+			
 			if (doctype == null) {
 				throw new NotFoundException("Doctype");
 			}
+			
 			else {
 				Document doc = new Document();
+				
 				doc.setType(doctype);
-				user.setDoc(doc);
+				
+				context.setProperty("doc", doc);
 			}
 		}
 		
 		if (StringUtils.isNotBlank(reqView.citizenshipCode)) {
-			Country country = countryDao.loadByCode(reqView.citizenshipCode.trim());
+			
+			Country country = countryDao.findByCode(reqView.citizenshipCode.trim());
+			
 			if (country == null) {
 				throw new NotFoundException("Country");
 			}
+			
 			else {
-				user.setCountry(country);
+				context.setProperty("country", country);
 			}
 		}
 		
+		User user = userMapper.map(reqView, User.class, context);
+		
 		logger.info("loadByOffice method, search of Office by User: "+ user);
 		
-		List<User> userList = userDao.findByOfficeId(user);
+		List<User> userList = userDao.findByOffice(user);
 		
 		logger.info("loadByOffice method, list of users: "+ userList);
 		
 		List <UserListViewResp> viewResp = new ArrayList<UserListViewResp>();
 		
 		for (User currentUser:userList) {
+			
 			viewResp.add(new UserListViewResp(String.valueOf(currentUser.getId()), currentUser.getFirstName(), 
 					currentUser.getLastName(), currentUser.getMiddleName(), currentUser.getPosition()));
 		}
@@ -176,6 +201,9 @@ public class UserServiceImpl implements UserService{
 		return viewResp;
 	}
 
+	/**
+	 * Save user
+	 */
 	@Override
 	public SuccessView save(UserSaveViewReq reqView) {
 		
@@ -203,11 +231,11 @@ public class UserServiceImpl implements UserService{
 			);
 		}
 		
-		if(!saveValErrors.isEmpty()) {
+		if(StringUtils.isNotBlank(saveValErrors)) {
 			throw new BadRequestException(saveValErrors);
 		}
 		
-		Office office = officeDao.loadById(Long.parseLong(reqView.officeId));
+		Office office = officeDao.findById(Long.parseLong(reqView.officeId));
 		
 		if (office == null) {
 			throw new NotFoundException("Office");
@@ -245,7 +273,7 @@ public class UserServiceImpl implements UserService{
 		
 		if (StringUtils.isNotBlank(reqView.docCode)) {
 			
-			Doctype doctype = doctypeDao.loadByCode(reqView.docCode.trim());
+			Doctype doctype = doctypeDao.findByCode(reqView.docCode.trim());
 			
 			if (doctype == null) {
 				throw new NotFoundException("Doctype");
@@ -265,7 +293,7 @@ public class UserServiceImpl implements UserService{
 		
 		if (StringUtils.isNotBlank(reqView.citizenshipCode)) {
 			
-			Country country = countryDao.loadByCode(reqView.citizenshipCode.trim());
+			Country country = countryDao.findByCode(reqView.citizenshipCode.trim());
 			
 			if (country == null) {
 				throw new NotFoundException("Country");
@@ -282,6 +310,9 @@ public class UserServiceImpl implements UserService{
 		return viewResp;
 	}
 
+	/**
+	 * Update user
+	 */
 	@Override
 	public SuccessView update(UserUpdateViewReq reqView) {
 		
@@ -299,6 +330,7 @@ public class UserServiceImpl implements UserService{
 				Strings.emptyToNull(userVal.valCitizCode(reqView.citizenshipCode, false)),
 				Strings.emptyToNull(userVal.valIsIdentified(reqView.isIdentified, false))						
 		);
+		
 		if (StringUtils.isNotBlank(reqView.docCode)||StringUtils.isNotBlank(reqView.docNumber)||StringUtils.isNotBlank(reqView.docDate)) {
 		updateValErrors = joiner.join(
 				Strings.emptyToNull(updateValErrors),
@@ -308,11 +340,11 @@ public class UserServiceImpl implements UserService{
 				);
 		}
 		
-		if(!updateValErrors.isEmpty()) {
+		if(StringUtils.isNotBlank(updateValErrors)) {
 			throw new BadRequestException(updateValErrors);
 		}
 				
-		User user = userDao.loadById(Long.parseLong(reqView.id));
+		User user = userDao.findById(Long.parseLong(reqView.id));
 		
 		if(user == null) {
 			throw new NotFoundException("User");
@@ -341,7 +373,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		if (StringUtils.isNotBlank(reqView.docCode)) {
-			Doctype doctype = doctypeDao.loadByCode(reqView.docCode.trim());
+			Doctype doctype = doctypeDao.findByCode(reqView.docCode.trim());
 			
 			if (doctype == null) {
 				throw new NotFoundException("Doctype");
@@ -366,7 +398,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		if (StringUtils.isNotBlank(reqView.citizenshipCode)) {
-			Country country = countryDao.loadByCode(reqView.citizenshipCode.trim());
+			Country country = countryDao.findByCode(reqView.citizenshipCode.trim());
 			
 			if (country == null) {
 				throw new NotFoundException("Country");
@@ -384,6 +416,9 @@ public class UserServiceImpl implements UserService{
 	
 	}
 
+	/**
+	 * Delete user
+	 */
 	@Override
 	public SuccessView deleteById(String id) {
 		
@@ -391,14 +426,14 @@ public class UserServiceImpl implements UserService{
 		
 		String deleteByIdValError = (userVal.valId(id, true));
 		
-		if(!deleteByIdValError.isEmpty()) {
+		if(StringUtils.isNotBlank(deleteByIdValError)) {
 			throw new BadRequestException(deleteByIdValError);
 		}
 		
-		User user = userDao.loadById(Long.parseLong(id));
+		User user = userDao.findById(Long.parseLong(id));
 				
 		if(user == null) {
-			throw new NotFoundException("Organization");
+			throw new NotFoundException("User");
 		}
 		
 		user.getOffice().getUsers().remove(user);
@@ -409,5 +444,4 @@ public class UserServiceImpl implements UserService{
 		
 		return viewResp;
 	}
-
 }

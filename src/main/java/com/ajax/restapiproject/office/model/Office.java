@@ -16,7 +16,7 @@ import com.ajax.restapiproject.organization.model.Organization;
 import com.ajax.restapiproject.user.model.User;
 
 /**
- * Office class
+ * Office entity
  */
 @Entity
 @Table(name = "office")
@@ -32,13 +32,6 @@ public class Office extends LegalEntity{
 	@OneToMany(mappedBy="office", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<User> users = new ArrayList<User>();
 	
-	/**
-	 * Call superclass constructor in order to initialize isActive field
-	 */
-	public Office() {
-		super();
-	}
-
 	public Organization getOrg() {
 		return org;
 	}
@@ -55,6 +48,9 @@ public class Office extends LegalEntity{
 		this.users = users;
 	}
 
+	/**
+	 * toString method
+	 */
 	@Override
 	public String toString() {
 		return "Office [getOrg()=" + getOrg() + ", getName()=" + getName()

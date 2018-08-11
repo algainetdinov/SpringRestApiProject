@@ -17,6 +17,9 @@ import com.ajax.restapiproject.model.DictionaryEntity;
 @AttributeOverride(column = @Column(name = "code", unique = true, length = 3, nullable = false), name = "code")
 public class Country extends DictionaryEntity{
 
+	/**
+	 * toString method
+	 */
 	@Override
 	public String toString() {
 		return "Country [getCode()=" + getCode() + ", getName()=" + getName() + ", getId()=" + getId() + "]";

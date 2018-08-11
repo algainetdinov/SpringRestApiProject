@@ -12,15 +12,15 @@ public interface CountryDao {
 	/**
 	 * Get list of countries
 	 */
-	List<Country> getCountries();
+	List<Country> findAll();
 	
 	/**
 	 * Find country by code
 	 */
-	Country loadByCode (String code);
+	Country findByCode(String code);
 	
 	/**
 	 * Find country by ID
 	 */
-	Country loadById (Long id);	
+	Country findById(Long id);	
 }

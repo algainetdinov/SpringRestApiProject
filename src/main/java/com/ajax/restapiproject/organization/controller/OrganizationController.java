@@ -2,6 +2,7 @@ package com.ajax.restapiproject.organization.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,11 +33,17 @@ public class OrganizationController {
 	
 	private final OrganizationService orgService;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param orgService
+	 */
+	@Autowired
 	public OrganizationController (OrganizationService orgService) {
 		this.orgService=orgService;
 	}
+	
 	/**
-	 * Since there is no service and DAO yet, initialize view with test data
+	 * Retrieve list of organizations
 	 */
 	@ApiOperation("Returns filtered list of organizations")
 	@ApiResponses(value = {
@@ -45,10 +52,16 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public List<OrganizationListViewResp> getOrgList(@RequestBody OrganizationListViewReq org) {
+	public List<OrganizationListViewResp> getByName(@RequestBody OrganizationListViewReq org) {
+		
 		return orgService.loadByName(org);		
 	}
 	
+	/**
+	 * Retrieve an organization by Id
+	 * @param id
+	 * @return
+	 */
 	@ApiOperation("Returns an organization specified by ID")
 	@ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -57,10 +70,16 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{id}", method= RequestMethod.GET)
-    public OrganizationIdViewResp getOrgById(@PathVariable String id){
+    public OrganizationIdViewResp getById(@PathVariable String id){
+		
 		return orgService.loadById(id);
     }
 	
+	/**
+	 * Update an organization
+	 * @param updateOrg
+	 * @return
+	 */
 	@ApiOperation("Updates an organization with provided data")
 	@ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -69,10 +88,16 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/update", method= RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
-    public SuccessView updateOrg(@RequestBody OrganizationUpdateViewReq updateOrg){
+    public SuccessView update(@RequestBody OrganizationUpdateViewReq updateOrg){
+		
 		return orgService.update(updateOrg);
     }
 	
+	/**
+	 * Save an organization
+	 * @param saveOrg
+	 * @return
+	 */
 	@ApiOperation("Creates an organization with provided data")
 	@ApiResponses(value = {
             @ApiResponse(code = 201, message = "Saved"),
@@ -80,11 +105,17 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@RequestMapping(value = "/save", method= RequestMethod.POST)
-    public SuccessView saveOrg(@RequestBody OrganizationSaveViewReq saveOrg){
+    public SuccessView save(@RequestBody OrganizationSaveViewReq saveOrg){
+		
 		return orgService.save(saveOrg);
     }
 	
-	@ApiOperation("Deletes an organization by ID")
+	/**
+	 * Delete an organization by Id
+	 * @param id
+	 * @return
+	 */
+	@ApiOperation("Deletes an organization by Id")
 	@ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
@@ -92,7 +123,8 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/delete/{id}", method= RequestMethod.GET)
-    public SuccessView deleteOrgById(@PathVariable String id){
+    public SuccessView deleteById(@PathVariable String id){
+		
 		return orgService.deleteById(id);
     }
 }

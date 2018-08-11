@@ -20,6 +20,11 @@ import org.springframework.stereotype.Repository;
  */
 import com.ajax.restapiproject.organization.model.Organization;
 
+/**
+ * Organization DAO implementation
+ * @author Al
+ *
+ */
 @Repository
 public class OrganizationDaoImpl implements OrganizationDao{
 	
@@ -27,25 +32,44 @@ public class OrganizationDaoImpl implements OrganizationDao{
 	
 	private final EntityManager em;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param em
+	 */
 	@Autowired
-	OrganizationDaoImpl (EntityManager em) {
-		this.em=em;
+	OrganizationDaoImpl(EntityManager em) {
+		this.em = em;
 	}
 
-	@Override
 	/**
 	 * Load an organization by provided Id 
 	 */
-	public Organization loadById(Long id) {
+	@Override
+	public Organization findById(Long id) {
+		
 		logger.info("Organization to be loaded by Id: " + id);
+		
 		return em.find(Organization.class, id);
 	}
 
+	/**
+	 * Load all organizations 
+	 */
 	@Override
+	public List<Organization> findAll() {
+		
+		logger.info("Organizations to be loaded");
+		
+		TypedQuery<Organization> query = em.createQuery("SELECT o FROM Organization o", Organization.class);
+		
+		return query.getResultList();
+	}
+	
 	/**
 	 * Load an organization by provided name 
 	 */
-	public List<Organization> loadByName(Organization org) {
+	@Override
+	public List<Organization> findByName(Organization org) {
 		
 		logger.info("Organization to be loaded by name: " + org);
 		
@@ -77,10 +101,10 @@ public class OrganizationDaoImpl implements OrganizationDao{
 		return query.getResultList();	
 	}
 	
-	@Override
 	/**
 	 * Save provided organization
 	 */
+	@Override
 	public void save(Organization org) {
 		
 		logger.info("Organization to be saved: " + org);
@@ -88,7 +112,11 @@ public class OrganizationDaoImpl implements OrganizationDao{
 		em.persist(org);
 	}
 	
-	public void delete (Organization org) {
+	/**
+	 * Delete provided organization
+	 */
+	@Override
+	public void delete(Organization org) {
 		
 		logger.info("Organization to be deleted: " + org);
 		

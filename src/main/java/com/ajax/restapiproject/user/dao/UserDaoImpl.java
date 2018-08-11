@@ -18,6 +18,11 @@ import org.springframework.stereotype.Repository;
 
 import com.ajax.restapiproject.user.model.User;
 
+/**
+ * User DAO implementation
+ * @author Al
+ *
+ */
 @Repository
 public class UserDaoImpl implements UserDao {
 	
@@ -25,25 +30,41 @@ public class UserDaoImpl implements UserDao {
 	
 	private EntityManager em;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param em
+	 */
 	@Autowired
-	public UserDaoImpl (EntityManager em) {
-		this.em=em;
+	public UserDaoImpl(EntityManager em) {
+		
+		this.em = em;
 	}
 	
+	/**
+	 * Find user by Id
+	 */
 	@Override
-	public User loadById(Long id) {
+	public User findById(Long id) {
+		
 		return em.find(User.class, id);
 	}
 
+	/**
+	 * Retrieve list of users
+	 */
 	@Override
 	public List<User> findAll() {
 		
 		TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+		
         return query.getResultList();
 	}
 	
+	/**
+	 * Retrieve user by office
+	 */
 	@Override
-	public List<User> findByOfficeId(User user) {
+	public List<User> findByOffice(User user) {
 		
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		
@@ -85,9 +106,13 @@ public class UserDaoImpl implements UserDao {
 		cq.where(cb.and(preList.toArray(new Predicate[preList.size()])));
 		
 		TypedQuery<User> query = em.createQuery(cq);
+		
 		return query.getResultList();
 	}
 
+	/**
+	 * Save user
+	 */
 	@Override
 	public void save(User user) {
 
@@ -96,11 +121,14 @@ public class UserDaoImpl implements UserDao {
 		em.persist(user);
 	}
 	
+	/**
+	 * Delete user
+	 */
+	@Override
 	public void delete(User user) {
+		
 		logger.info("User to be deleted: " + user.getId());
 		
 		em.remove(user);
-		
 	}
-
 }

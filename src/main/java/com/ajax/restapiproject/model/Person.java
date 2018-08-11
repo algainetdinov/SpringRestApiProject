@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 /**
- * Person superclass
+ * Superclass for all physical persons
  */
 @MappedSuperclass
 public class Person extends BaseEntity{

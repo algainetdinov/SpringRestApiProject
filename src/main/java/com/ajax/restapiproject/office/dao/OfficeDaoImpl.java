@@ -17,6 +17,11 @@ import org.springframework.stereotype.Repository;
 
 import com.ajax.restapiproject.office.model.Office;
 
+/**
+ * Office DAO implementation
+ * @author Al
+ *
+ */
 @Repository
 public class OfficeDaoImpl implements OfficeDao {
 
@@ -24,25 +29,32 @@ public class OfficeDaoImpl implements OfficeDao {
 	
 	private final EntityManager em;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param em
+	 */
 	@Autowired
 	OfficeDaoImpl (EntityManager em) {
-		this.em=em;
+		
+		this.em = em;
 	}
 
-	@Override
 	/**
 	 * Load an office by provided Id 
 	 */
-	public Office loadById(Long id) {
+	@Override
+	public Office findById(Long id) {
+		
 		logger.info("Office to be loaded by Id: " + id);
+		
 		return em.find(Office.class, id);
 	}
 
-	@Override
 	/**
-	 * Load an office by provided name 
+	 * Load an office by organization
 	 */
-	public List<Office> loadByOrg(Office office) {
+	@Override
+	public List<Office> findByOrg(Office office) {
 		
 		logger.info("Office to be loaded by organization: " + office);
 		
@@ -50,39 +62,40 @@ public class OfficeDaoImpl implements OfficeDao {
 		
 		CriteriaQuery<Office> cq = cb.createQuery(Office.class);
 		
-		Root<Office> orgRoot = cq.from(Office.class);
+		Root<Office> officeRoot = cq.from(Office.class);
 		
 		List<Predicate> preList = new ArrayList<Predicate>();
 		
-		Predicate orgPre = cb.equal(orgRoot.get("org"), office.getOrg());
+		Predicate orgPre = cb.equal(officeRoot.get("org"), office.getOrg());
 		
 		preList.add(orgPre);
 		
 		if (office.getName()!=null) {
-			Predicate namePre = cb.equal(orgRoot.get("name"), office.getName());
+			Predicate namePre = cb.equal(officeRoot.get("name"), office.getName());
 			preList.add(namePre);
 		}
 		
 		if (office.getPhone()!=null) {
-			Predicate phonePre = cb.equal(orgRoot.get("phone"), office.getPhone());
+			Predicate phonePre = cb.equal(officeRoot.get("phone"), office.getPhone());
 			preList.add(phonePre);
 		}
 
 		if (office.getIsActive()!=null) {
-			Predicate isActivePre = cb.equal(orgRoot.get("isActive"), office.getIsActive());
+			Predicate isActivePre = cb.equal(officeRoot.get("isActive"), office.getIsActive());
 			preList.add(isActivePre);
 		}
 		
 		cq.where(cb.and(preList.toArray(new Predicate[preList.size()])));
 		
 		TypedQuery<Office> query = em.createQuery(cq);
+		
 		return query.getResultList();	
 	}
 	
-	@Override
 	/**
-	 * Save provided organization
+	 * Save office
 	 */
+	@Override
 	public void save(Office office) {
 		
 		logger.info("Office to be saved: " + office);
@@ -90,10 +103,26 @@ public class OfficeDaoImpl implements OfficeDao {
 		em.persist(office);
 	}
 	
-	public void delete (Office office) {
+	/**
+	 * Delete office
+	 */
+	@Override
+	public void delete(Office office) {
 		
 		logger.info("Office to be deleted: " + office);
 		
 		em.remove(office);
+	}
+	
+	/**
+	 * Retrieve list of offices
+	 * @return
+	 */
+	@Override
+	public List <Office> findAll() {
+		
+		TypedQuery<Office> query = em.createQuery("SELECT o from Office o", Office.class);
+		
+		return query.getResultList();
 	}
 }

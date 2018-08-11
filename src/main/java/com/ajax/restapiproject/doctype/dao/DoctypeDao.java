@@ -10,18 +10,19 @@ import com.ajax.restapiproject.doctype.model.Doctype;
  *
  */
 public interface DoctypeDao {
+	
 	/**
-	 * Get list of countries
+	 * Get list of doctypes
 	 */
-	List<Doctype> getDoctypes();
+	List<Doctype> findAll();
 	
 	/**
 	 * Find country by code
 	 */
-	Doctype loadByCode (String code);
+	Doctype findByCode (String code);
 	
 	/**
 	 * Find country by ID
 	 */
-	Doctype loadById (Long id);	
+	Doctype findById (Long id);	
 }

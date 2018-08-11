@@ -12,9 +12,23 @@ import com.ajax.restapiproject.view.DictionaryView;
  */
 public interface DoctypeService {
 
-	Doctype findById(Long id);
+	/**
+	 * Find doctype by Id
+	 * @param id
+	 * @return
+	 */
+	Doctype loadById(Long id);
 	
-	Doctype findByCode(String code);
+	/**
+	 * Find doctype by code
+	 * @param code
+	 * @return
+	 */
+	Doctype loadByCode(String code);
 	
-	List<DictionaryView> findAll();
+	/**
+	 * Retrieve all doctypes
+	 * @return
+	 */
+	List<DictionaryView> loadAll();
 }

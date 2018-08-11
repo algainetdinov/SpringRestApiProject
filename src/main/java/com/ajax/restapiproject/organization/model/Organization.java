@@ -14,7 +14,7 @@ import com.ajax.restapiproject.model.LegalEntity;
 import com.ajax.restapiproject.office.model.Office;
 
 /**
- * Organization class
+ * Organization entity
  */
 @Entity
 @Table(name = "organization")
@@ -23,7 +23,7 @@ public class Organization extends LegalEntity{
 	/**
 	 * Organization's full name
 	 */
-	@Column(name = "full_name", length = 128, nullable = false)
+	@Column(name = "full_name", length = 64, nullable = false)
 	private String fullName;
 	
 	/**

@@ -11,5 +11,4 @@ import com.ajax.restapiproject.service.LegalEntityValidation;
  */
 @Component
 public class OfficeValidation extends LegalEntityValidation {
-
 }

@@ -12,6 +12,8 @@ import com.ajax.restapiproject.country.service.CountryService;
 import com.ajax.restapiproject.view.DictionaryView;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * Controller for countries
@@ -22,14 +24,27 @@ public class CountryController {
 	
 	private final CountryService countryService;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param countryService
+	 */
 	@Autowired
 	public CountryController (CountryService countryService) {
+		
 		this.countryService=countryService;
 	}
 
+	/**
+	 * Handle request for a list of countries
+	 * @return
+	 */
 	@ApiOperation("Returns list of countries")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public List<DictionaryView> countries() {
-		return countryService.getCountries();
+	public List<DictionaryView> getAll() {
+		
+		return countryService.loadAll();
 	}
 }

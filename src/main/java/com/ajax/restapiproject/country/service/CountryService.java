@@ -11,16 +11,15 @@ import com.ajax.restapiproject.view.DictionaryView;
 public interface CountryService {
 	
 	/**
-	 * Retrieve country by ID
+	 * Retrieve country by Id
 	 * @param id
 	 * @return
 	 */
-	Country getCountryById(Long id);
+	Country loadById(Long id);
 	
 	/**
 	 * Retrieve list of countries
 	 * @return
 	 */
-	List<DictionaryView> getCountries();
-	
+	List<DictionaryView> loadAll();
 }

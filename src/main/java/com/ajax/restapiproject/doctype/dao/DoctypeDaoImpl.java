@@ -24,27 +24,48 @@ public class DoctypeDaoImpl implements DoctypeDao {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/**
+	 * Constructor to set final fields
+	 * @param em
+	 */
 	@Autowired
 	public DoctypeDaoImpl (EntityManager em) {
-		this.em=em;
+		
+		this.em = em;
 	}
 	
+	/**
+	 * Retrieve all doctypes
+	 */
 	@Override
-	public List<Doctype> getDoctypes() {
+	public List<Doctype> findAll() {
+		
 		TypedQuery<Doctype> query = em.createQuery("SELECT d FROM Doctype d", Doctype.class);
+		
         return query.getResultList();
 	}
 
+	/**
+	 * Retrieve doctype by code
+	 */
 	@Override
-	public Doctype loadByCode(String code) {
+	public Doctype findByCode(String code) {
+		
 		logger.info("loadByCode method called with code: "+code);
+		
 		TypedQuery<Doctype> query = em.createQuery("SELECT d FROM Doctype d WHERE d.code = :code", Doctype.class).setParameter("code", code);
+		
 		Doctype doctype = query.getResultList().stream().findFirst().orElse(null);
+		
 		return doctype;
 	}
 
+	/**
+	 * Retrieve doctype by Id
+	 */
 	@Override
-	public Doctype loadById(Long id) {
+	public Doctype findById(Long id) {
+		
 		return em.find(Doctype.class, id);
 	}
 

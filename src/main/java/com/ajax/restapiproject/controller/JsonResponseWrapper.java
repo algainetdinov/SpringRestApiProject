@@ -28,10 +28,13 @@ public class JsonResponseWrapper implements ResponseBodyAdvice<Object>{
 	     * In case of exception send a ExceptionView otherwise wrap response in a DataView
 	     */
 	    @Override
-	    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request, ServerHttpResponse response) {
+	    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, 
+	    		Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request, ServerHttpResponse response) {
+	    	
 	        if (body instanceof ExceptionView) {
 	           return body;
 	        }
+	        
 	        else {
 	        	return new DataView(body);
 	        }

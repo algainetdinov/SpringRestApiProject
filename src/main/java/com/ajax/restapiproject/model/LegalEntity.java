@@ -33,11 +33,6 @@ public class LegalEntity extends BaseEntity{
 	@Column(name = "is_active")
 	private Boolean isActive;
 	
-	/**
-	 * Initialize all new entities as active
-	 */
-	public LegalEntity() {}
-
 	public String getName() {
 		return name;
 	}

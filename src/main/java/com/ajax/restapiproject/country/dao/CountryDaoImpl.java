@@ -20,15 +20,17 @@ public class CountryDaoImpl implements CountryDao{
 	
 	@Autowired
 	public CountryDaoImpl(EntityManager em) {
-		this.em=em;
+		this.em = em;
 	}
 	
 	/**
 	 * Implement logic for a getting list of countries through entity manager
 	 */
 	@Override
-	public List<Country> getCountries() {
+	public List<Country> findAll() {
+		
 		TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c", Country.class);
+		
         return query.getResultList();
 	}
 	
@@ -36,9 +38,12 @@ public class CountryDaoImpl implements CountryDao{
 	 * Implement logic for a getting country with specified code (unique value)
 	 */
 	@Override
-	public Country loadByCode (String code) {
+	public Country findByCode(String code) {
+		
 		TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c WHERE c.code = :code", Country.class).setParameter("code", code);
+		
 		Country country = query.getResultList().stream().findFirst().orElse(null);
+		
 		return country;
 	}
 	
@@ -46,7 +51,8 @@ public class CountryDaoImpl implements CountryDao{
 	 * Implement logic for a getting country by ID
 	 */
 	@Override
-	public Country loadById (Long id) {
+	public Country findById(Long id) {
+		
 		return em.find(Country.class, id);
 	}	
 }

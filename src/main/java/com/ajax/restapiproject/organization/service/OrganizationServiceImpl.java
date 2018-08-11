@@ -41,9 +41,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 	
 	private final OrganizationValidation orgVal;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param orgDao
+	 * @param orgVal
+	 */
 	@Autowired 
 	public OrganizationServiceImpl (OrganizationDao orgDao, OrganizationValidation orgVal) {
+		
 		this.orgDao = orgDao;
+		
 		this.orgVal = orgVal;
 	}
 	
@@ -57,17 +64,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		String loadByIdValError = (orgVal.valId(id, true));
 		
-		if(!loadByIdValError.isEmpty()) {
+		if(StringUtils.isNotBlank(loadByIdValError)) {
 			throw new BadRequestException(loadByIdValError);
 		}
 		
-		Organization org = orgDao.loadById(Long.parseLong(id));
+		Organization org = orgDao.findById(Long.parseLong(id));
 		
 		if(org==null) {
 			throw new NotFoundException("Organization");
 		}
 		
-		OrganizationIdViewResp viewResp = new OrganizationIdViewResp(org.getId(), org.getName(), org.getFullName(), 
+		OrganizationIdViewResp viewResp = new OrganizationIdViewResp(String.valueOf(org.getId()), org.getName(), org.getFullName(), 
 				org.getInn(), org.getKpp(), org.getAddress(), org.getPhone(), String.valueOf(org.getIsActive()));
 		
 		logger.info("Response for request by id, loadById method: "+ id + ". " + viewResp);
@@ -87,11 +94,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		String loadByNameValErrors = joiner.join(
 				Strings.emptyToNull(orgVal.valName(reqView.name, true)),
-				Strings.emptyToNull(orgVal.valInn(reqView.inn, true)),
+				Strings.emptyToNull(orgVal.valInn(reqView.inn, false)),
 				Strings.emptyToNull(orgVal.valIsActive(reqView.isActive, false))						
 		);
 		
-		if(!loadByNameValErrors.isEmpty()) {
+		if(StringUtils.isNotBlank(loadByNameValErrors)) {
 			throw new BadRequestException(loadByNameValErrors);
 		}
 		
@@ -107,12 +114,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 			org.setIsActive(Boolean.parseBoolean(reqView.isActive));
 		}
 		
-		List<Organization> orgList = orgDao.loadByName(org);
+		List<Organization> orgList = orgDao.findByName(org);
+		
+		if(orgList.isEmpty()) {
+			throw new NotFoundException("Organization");
+		}
 		
 		List <OrganizationListViewResp> viewResp = new ArrayList<OrganizationListViewResp>();
 		
 		for (Organization currentOrg:orgList) {
-			viewResp.add(new OrganizationListViewResp(currentOrg.getId(), currentOrg.getName(), 
+			viewResp.add(new OrganizationListViewResp(String.valueOf(currentOrg.getId()), currentOrg.getName(), 
 					String.valueOf(currentOrg.getIsActive())));
 		}
 		
@@ -141,7 +152,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 				Strings.emptyToNull(orgVal.valIsActive(reqView.isActive, false))						
 		);
 		
-		if(!saveValErrors.isEmpty()) {
+		if(StringUtils.isNotBlank(saveValErrors)) {
 			throw new BadRequestException(saveValErrors);
 		}
 		
@@ -157,7 +168,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		org.setAddress(reqView.address.trim());
 		
-	
 		if (StringUtils.isNotBlank(reqView.phone)) {
 			org.setPhone(reqView.phone.trim());
 		}
@@ -196,11 +206,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 				Strings.emptyToNull(orgVal.valIsActive(reqView.isActive, false))						
 		);
 		
-		if(!updateValErrors.isEmpty()) {
+		if(StringUtils.isNotBlank(updateValErrors)) {
 			throw new BadRequestException(updateValErrors);
 		}
 				
-		Organization org = orgDao.loadById(Long.parseLong(reqView.id));
+		Organization org = orgDao.findById(Long.parseLong(reqView.id));
 		
 		if(org==null) {
 			throw new NotFoundException("Organization");
@@ -241,15 +251,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		logger.info("Request by id, deleteById method: "+ id);
 		
-		String deleteByIdValError = (orgVal.valId(id, true));
+		String deleteByIdValError = orgVal.valId(id, true);
 		
-		if(!deleteByIdValError.isEmpty()) {
+		if(StringUtils.isNotBlank(deleteByIdValError)) {
 			throw new BadRequestException(deleteByIdValError);
 		}
 		
-		Organization org = orgDao.loadById(Long.parseLong(id));
+		Organization org = orgDao.findById(Long.parseLong(id));
 				
-		if(org==null) {
+		if (org==null) {
 			throw new NotFoundException("Organization");
 		}
 		

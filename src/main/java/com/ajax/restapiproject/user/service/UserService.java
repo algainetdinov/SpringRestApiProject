@@ -10,19 +10,44 @@ import com.ajax.restapiproject.user.view.UserUpdateViewReq;
 import com.ajax.restapiproject.view.SuccessView;
 
 /**
- * User service
+ * User service interface
  * @author Al
  *
  */
 public interface UserService {
 	
+	/**
+	 * Find user by Id
+	 * @param id
+	 * @return
+	 */
 	UserIdViewResp loadById(String id);
 	
+	/**
+	 * Retrieve users by office
+	 * @param reqView
+	 * @return
+	 */
 	List<UserListViewResp> loadByOffice(UserListViewReq reqView);
 	
-	SuccessView save (UserSaveViewReq reqView);
+	/**
+	 * Save user
+	 * @param reqView
+	 * @return
+	 */
+	SuccessView save(UserSaveViewReq reqView);
 	
-	SuccessView update (UserUpdateViewReq reqView);
+	/**
+	 * Update user
+	 * @param reqView
+	 * @return
+	 */
+	SuccessView update(UserUpdateViewReq reqView);
 	
-	SuccessView deleteById (String id);
+	/**
+	 * Delete user
+	 * @param id
+	 * @return
+	 */
+	SuccessView deleteById(String id);
 }

@@ -17,7 +17,7 @@ public class LegalEntityValidation extends Validation{
 	 * @param isRequired
 	 * @return
 	 */
-	public String valName (String name, boolean isRequired) {
+	public String valName(String name, boolean isRequired) {
 		
 		StringJoiner nameError = new StringJoiner(". ");
 		
@@ -26,8 +26,8 @@ public class LegalEntityValidation extends Validation{
 		}
 		
 		else if (StringUtils.isNotBlank(name)) {
-			if (name.length()<5 || name.length()>64) {
-			nameError.add("Name length should be between 5 and 64 characters");
+			if (name.trim().length()<5 || name.trim().length()>64) {
+				nameError.add("Name length should be between 5 and 64 characters");
 			}			
 		}
 		return nameError.toString();	
@@ -48,7 +48,7 @@ public class LegalEntityValidation extends Validation{
 		}
 		
 		else if (StringUtils.isNotBlank(address)) {
-			if (address.length()<5 || address.length()>64) {
+			if (address.trim().length()<5 || address.trim().length()>64) {
 				addressError.add("Address length should be between 5 and 64 characters");
 			}
 		}	
@@ -61,7 +61,7 @@ public class LegalEntityValidation extends Validation{
 	 * @param isRequired
 	 * @return
 	 */
-	public String valIsActive (String isActive, boolean isRequired) {
+	public String valIsActive(String isActive, boolean isRequired) {
 		
 		StringJoiner isActiveError = new StringJoiner(". ");
 		

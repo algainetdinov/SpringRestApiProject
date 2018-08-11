@@ -1,6 +1,7 @@
 package com.ajax.restapiproject.user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
@@ -14,7 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.ajax.restapiproject.country.dao.CountryDao;
@@ -28,12 +28,16 @@ import com.ajax.restapiproject.office.dao.OfficeDao;
 import com.ajax.restapiproject.office.model.Office;
 import com.ajax.restapiproject.user.dao.UserDao;
 import com.ajax.restapiproject.user.model.User;
+import com.ajax.restapiproject.user.model.UserMapper;
 import com.ajax.restapiproject.user.view.UserIdViewResp;
 import com.ajax.restapiproject.user.view.UserListViewReq;
 import com.ajax.restapiproject.user.view.UserListViewResp;
 import com.ajax.restapiproject.user.view.UserSaveViewReq;
 import com.ajax.restapiproject.user.view.UserUpdateViewReq;
 import com.ajax.restapiproject.view.SuccessView;
+
+import ma.glasnost.orika.MappingContext;
+import ma.glasnost.orika.MappingContext.Factory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTests {
@@ -57,6 +61,9 @@ public class UserServiceImplTests {
 	private UserValidation userVal; 
 	
 	@Mock
+	private UserMapper userMapper;
+	
+	@Mock
 	private Office office;
 	
 	@Mock
@@ -77,7 +84,7 @@ public class UserServiceImplTests {
 	@Test
 	public void loadByIdSuccessTest() {	
 		
-		when(userDao.loadById(anyLong())).thenReturn(user);
+		when(userDao.findById(anyLong())).thenReturn(user);
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
 		when(office.getId()).thenReturn(1L);
 		when(user.getOffice()).thenReturn(office);
@@ -99,7 +106,7 @@ public class UserServiceImplTests {
 	@Test (expected = NotFoundException.class)
 	public void loadByIdUserNotFoundTest() {
 		
-		when(userDao.loadById(anyLong())).thenReturn(null);
+		when(userDao.findById(anyLong())).thenReturn(null);
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
 		assertThat(userService.loadById("3")).isInstanceOf(NotFoundException.class);
 	}
@@ -124,7 +131,7 @@ public class UserServiceImplTests {
 		//Since I cannot use when(userListViewReq.officeId).thenReturn("1")
 		userListViewReq.officeId="1";
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
-		when(officeDao.loadById(anyLong())).thenReturn(null);
+		when(officeDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.loadByOffice(userListViewReq)).isInstanceOf(NotFoundException.class);
 		
 	}
@@ -149,11 +156,16 @@ public class UserServiceImplTests {
 	public void loadByOfficeSuccessTest () {
 		
 		UserListViewReq userListViewReq = mock(UserListViewReq.class);
+		MappingContext mapContext = mock(MappingContext.class);
+		Factory fact = mock(Factory.class);
+		when(fact.getContext()).thenReturn(mapContext);
+		when(userMapper.map(any(UserListViewReq.class), any(), any(MappingContext.class))).
+				thenReturn(user);
 		//Since I cannot use when(userListViewReq.officeId).thenReturn("1")
-		userListViewReq.officeId="1";
+		userListViewReq.officeId = "1";
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
-		when(officeDao.loadById(anyLong())).thenReturn(office);
-		when(userDao.findByOfficeId(Mockito.any(User.class))).thenReturn(Arrays.asList(user));
+		when(userDao.findByOffice(any(User.class))).thenReturn(Arrays.asList(user));
+		when(officeDao.findById(anyLong())).thenReturn(office);
 		assertThat(userService.loadByOffice(userListViewReq)).hasAtLeastOneElementOfType(UserListViewResp.class);
 	}
 	
@@ -176,7 +188,7 @@ public class UserServiceImplTests {
 		
 		UserSaveViewReq userSaveViewReq = mock (UserSaveViewReq.class);
 		userSaveViewReq.officeId="1";
-		when(officeDao.loadById(anyLong())).thenReturn(null);
+		when(officeDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.save(userSaveViewReq)).isInstanceOf(NotFoundException.class);
 	}
 	
@@ -188,7 +200,7 @@ public class UserServiceImplTests {
 		
 		UserSaveViewReq userSaveViewReq = mock (UserSaveViewReq.class);
 		userSaveViewReq.officeId="1";
-		when(officeDao.loadById(anyLong())).thenReturn(office);		
+		when(officeDao.findById(anyLong())).thenReturn(office);		
 		assertThat(userService.save(userSaveViewReq)).isInstanceOf(SuccessView.class);
 	}
 	
@@ -211,7 +223,7 @@ public class UserServiceImplTests {
 		
 		UserUpdateViewReq userUpdateViewReq = mock (UserUpdateViewReq.class);
 		userUpdateViewReq.id = "1";
-		when(userDao.loadById(anyLong())).thenReturn(null);
+		when(userDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.update(userUpdateViewReq)).isInstanceOf(NotFoundException.class);
 	}
 	
@@ -225,7 +237,7 @@ public class UserServiceImplTests {
 		userUpdateViewReq.id = "1";
 		userUpdateViewReq.firstName = "John";
 		userUpdateViewReq.position = "Manager";
-		when(userDao.loadById(anyLong())).thenReturn(user);
+		when(userDao.findById(anyLong())).thenReturn(user);
 		assertThat(userService.update(userUpdateViewReq)).isInstanceOf(SuccessView.class);
 	}
 	
@@ -233,7 +245,7 @@ public class UserServiceImplTests {
 	 * Try to delete user with wrong Id
 	 */
 	@Test(expected = BadRequestException.class)
-	public void deleteBadRequestTest() {
+	public void deleteByIdBadRequestTest() {
 		
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("Error");
 		assertThat(userService.deleteById("1")).isInstanceOf(BadRequestException.class);
@@ -243,10 +255,10 @@ public class UserServiceImplTests {
 	 * Try to delete non-existing user
 	 */
 	@Test(expected = NotFoundException.class)
-	public void deleteNotFoundTest() {
+	public void deleteByIdNotFoundTest() {
 		
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("");
-		when(userDao.loadById(anyLong())).thenReturn(null);
+		when(userDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.deleteById("1")).isInstanceOf(NotFoundException.class);
 	}
 	
@@ -254,10 +266,10 @@ public class UserServiceImplTests {
 	 * Successful deletion
 	 */
 	@Test
-	public void deleteSuccessTest() {
+	public void deleteByIdSuccessTest() {
 	
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("");
-		when(userDao.loadById(anyLong())).thenReturn(user);
+		when(userDao.findById(anyLong())).thenReturn(user);
 		when(user.getOffice()).thenReturn(office);
 		when(office.getUsers()).thenReturn(Arrays.asList(new User()));		
 		assertThat(userService.deleteById("1")).isInstanceOf(SuccessView.class);

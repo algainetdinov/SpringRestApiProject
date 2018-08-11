@@ -12,6 +12,8 @@ import com.ajax.restapiproject.doctype.service.DoctypeService;
 import com.ajax.restapiproject.view.DictionaryView;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * Document types controller
@@ -22,14 +24,25 @@ public class DoctypeController {
 	
 	private DoctypeService doctypeService;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param doctypeService
+	 */
 	@Autowired
 	public DoctypeController (DoctypeService doctypeService) {
 		this.doctypeService = doctypeService;
 	}
 	
+	/**
+	 * Handle request for a list of doctypes
+	 * @return
+	 */
 	@ApiOperation("Returns a list of existing document types")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/", method= RequestMethod.GET)
-    public List<DictionaryView> getDoctypes(){
-		return doctypeService.findAll();
+    public List<DictionaryView> getAll(){
+		return doctypeService.loadAll();
     }
 }

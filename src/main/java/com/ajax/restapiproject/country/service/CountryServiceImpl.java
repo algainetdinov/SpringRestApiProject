@@ -19,33 +19,39 @@ public class CountryServiceImpl implements CountryService{
 	private final CountryDao countryDao;
 	
 	/**
-	 * Autowire private final service object
+	 * Constructor to set final fields
 	 * @param countryDao
 	 */
 	@Autowired
 	public CountryServiceImpl(CountryDao countryDao) {
-		this.countryDao=countryDao;
+		
+		this.countryDao = countryDao;
 	}
 	
 	/**
-	 * Retrieve country by ID
+	 * Retrieve country by Id
 	 */
 	@Override
-	public Country getCountryById(Long id) {
-		return countryDao.loadById(id);
+	public Country loadById(Long id) {
+		
+		return countryDao.findById(id);
 	}
 
 	/**
-	 * Retrive all countries
+	 * Retrieve all countries
 	 */
 	@Override
-	public List<DictionaryView> getCountries() {
-		List<DictionaryView> countryViews= new ArrayList<DictionaryView>();
+	public List<DictionaryView> loadAll() {
 		
-		for (Country c:countryDao.getCountries()) {
-			DictionaryView countryView=new DictionaryView(c.getCode(), c.getName());
+		List<DictionaryView> countryViews = new ArrayList<DictionaryView>();
+		
+		for (Country c:countryDao.findAll()) {
+			
+			DictionaryView countryView = new DictionaryView(c.getCode(), c.getName());
+			
 			countryViews.add(countryView);
 		}
+		
 		return countryViews;
 	}
 }

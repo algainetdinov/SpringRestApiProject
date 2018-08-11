@@ -4,21 +4,26 @@ import java.util.List;
 
 import com.ajax.restapiproject.office.model.Office;
 
+/**
+ * Office DAO interface
+ * @author Al
+ *
+ */
 public interface OfficeDao {
 	
 	/**
-	 * Get office by Id
+	 * Find office by Id
 	 * @param id
 	 * @return
 	 */
-	Office loadById(Long id);
+	Office findById(Long id);
 	
 	/**
-	 * Load by name
+	 * Find office by organization
 	 * @param org
 	 * @return
 	 */
-	List <Office> loadByOrg(Office office);
+	List <Office> findByOrg(Office office);
 	
 	/**
 	 * Save office
@@ -30,6 +35,11 @@ public interface OfficeDao {
 	 * Delete an office by Id
 	 * @param org
 	 */
-	void delete(Office off);
+	void delete(Office office);
 
+	/**
+	 * Retrieve list of offices
+	 * @return
+	 */
+	List <Office> findAll();
 }

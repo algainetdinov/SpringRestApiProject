@@ -19,6 +19,8 @@ import com.ajax.restapiproject.office.view.OfficeUpdateViewReq;
 import com.ajax.restapiproject.view.SuccessView;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  *Controller for office
@@ -29,38 +31,98 @@ public class OfficeController {
 	
 	private OfficeService officeService;
 	
+	/**
+	 * Constructor to set final fields
+	 * @param officeService
+	 */
 	@Autowired
 	public OfficeController (OfficeService officeService) {
+		
 		this.officeService = officeService;
 	}
 	
+	/**
+	 * Request for retrieving list of offices
+	 * @param reqView
+	 * @return
+	 */
 	@ApiOperation("Returns lists of offices belonging to specified organization")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public List<OfficeListViewResp> listOffice(@RequestBody OfficeListViewReq reqView) {
+	public List<OfficeListViewResp> getByOrg(@RequestBody OfficeListViewReq reqView) {
+		
 		return officeService.loadByOrg(reqView);
 	}
 	
-	@ApiOperation("Returns an office specified by ID")
+	/**
+	 * Request for retrieving office by Id
+	 * @param id
+	 * @return
+	 */
+	@ApiOperation("Returns an office specified by Id")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/{id}", method= RequestMethod.GET)
-    public OfficeIdViewResp getOfficeById(@PathVariable String id){
+    public OfficeIdViewResp getById(@PathVariable String id){
+		
 		return officeService.loadById(id);
 	}
 	
+	/**
+	 * Request for updating office
+	 * @param id
+	 * @return
+	 */
 	@ApiOperation("Updates an office with provided data")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/update", method= RequestMethod.POST)
-    public SuccessView updateOffice(@RequestBody OfficeUpdateViewReq reqView){
+    public SuccessView update(@RequestBody OfficeUpdateViewReq reqView){
+		
 		return officeService.update(reqView);
     }
 	
+	/**
+	 * Request for saving an office
+	 * @param reqView
+	 * @return
+	 */
 	@ApiOperation("Creates an office with provided data")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/save", method= RequestMethod.POST)
-    public SuccessView saveOrg(@RequestBody OfficeSaveViewReq reqView){
+    public SuccessView save(@RequestBody OfficeSaveViewReq reqView){
+		
 		return officeService.save(reqView);
     }
 	
+	/**
+	 * Request for deleting an office
+	 * @param id
+	 * @return
+	 */
 	@ApiOperation("Deletes an office by Id")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@RequestMapping(value = "/delete/{id}", method= RequestMethod.GET)
-    public SuccessView delete(@PathVariable String id){
+    public SuccessView deleteById(@PathVariable String id){
+		
 		return officeService.deleteById(id);
     }
 }

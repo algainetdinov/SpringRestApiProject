@@ -15,7 +15,7 @@ import com.ajax.restapiproject.doctype.model.Doctype;
 import com.ajax.restapiproject.model.BaseEntity;
 
 /**
- * Document class
+ * Document entity
  */
 @Entity
 @Table(name = "document")
@@ -66,6 +66,9 @@ public class Document extends BaseEntity{
 		this.type = type;
 	}
 
+	/**
+	 * toString method
+	 */
 	@Override
 	public String toString() {
 		return "Document [getDocDate()=" + getDocDate() + ", getDocNumber()=" + getDocNumber() + ", getType()="

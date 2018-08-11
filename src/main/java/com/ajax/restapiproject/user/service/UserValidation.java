@@ -24,6 +24,9 @@ public class UserValidation extends Validation {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	/**
+	 * Default constructor
+	 */
 	public UserValidation () {
 		df.setLenient(false);
 	}
@@ -244,15 +247,18 @@ public class UserValidation extends Validation {
 		}
 		
 		else if (StringUtils.isNotBlank(citizCode)) {
+			
 			if (citizCode.trim().length()!=3) {
 				citizCodeError.add("Citizenship code length should be 3 digits");
 			}
+			
 			try {
 				Long.parseLong(citizCode.trim());
 				if (Integer.parseInt(citizCode.trim())<1) {
 					citizCodeError.add("Citizenship code should be a positive number");
 				}
 			}
+			
 			catch (Exception e) {
 				logger.error("Parse citizenship code exception: ", e);
 				citizCodeError.add("Citizenship code should be a number");

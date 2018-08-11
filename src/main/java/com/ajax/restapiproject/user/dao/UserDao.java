@@ -5,19 +5,41 @@ import java.util.List;
 import com.ajax.restapiproject.user.model.User;
 
 /**
- * User DAO
+ * User DAO interface
  * @author Al
  *
  */
 public interface UserDao {
 	
-	User loadById(Long id);
+	/**
+	 * Find user by Id
+	 * @param id
+	 * @return
+	 */
+	User findById(Long id);
 	
-	List<User> findByOfficeId(User user);
+	/**
+	 * Find user by office
+	 * @param user
+	 * @return
+	 */
+	List<User> findByOffice(User user);
 	
+	/**
+	 * Retrieve all users
+	 * @return
+	 */
 	List<User> findAll();
 		
+	/**
+	 * Save user
+	 * @param user
+	 */
 	void save(User user);
 	
+	/**
+	 * Delete user
+	 * @param user
+	 */
 	void delete(User user);
 }

@@ -14,7 +14,7 @@ import com.ajax.restapiproject.model.Person;
 import com.ajax.restapiproject.office.model.Office;
 
 /**
- * User class
+ * User entity
  */
 @Entity
 @Table(name = "user")
@@ -115,10 +115,12 @@ public class User extends Person{
 		this.phone = phone;
 	}
 
+	/**
+	 * toString method
+	 */
 	@Override
 	public String toString() {
-		return "User [getIsIdentified()=" + getIsIdentified() + ", getPosition()=" + getPosition() + ", getOffice()="
-				+ getOffice() + ", getDoc()=" + getDoc() + ", getCountry()=" + getCountry() + ", getPhone()="
+		return "User [getIsIdentified()=" + getIsIdentified() + ", getPosition()=" + getPosition() + ", getPhone()="
 				+ getPhone() + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName()
 				+ ", getMiddleName()=" + getMiddleName() + ", getId()=" + getId() + "]";
 	}

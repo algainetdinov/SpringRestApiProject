@@ -12,6 +12,9 @@ import javax.persistence.Version;
 @MappedSuperclass
 public class BaseEntity {
 	
+	/**
+	 * Entity identifier
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
