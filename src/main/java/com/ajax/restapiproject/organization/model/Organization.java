@@ -1,12 +1,10 @@
 package com.ajax.restapiproject.organization.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,16 +39,9 @@ public class Organization extends LegalEntity{
 	/**
 	 * List of related offices
 	 */
-	@OneToMany(mappedBy="org", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-	private List<Office> offices = new ArrayList<Office>();
+	@OneToMany(mappedBy="org", orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<Office> offices;
 	
-	/**
-	 * Call superclass constructor in order to initialize isActive field
-	 */
-	public Organization() {
-		super();
-	}
-
 	public String getFullName() {
 		return fullName;
 	}

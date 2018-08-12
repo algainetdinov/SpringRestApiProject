@@ -61,19 +61,23 @@ CREATE TABLE IF NOT EXISTS user (
 	FOREIGN KEY (office_id) REFERENCES office(id)
 ); 
 
+//Indexes for fields used for search
 CREATE INDEX IX_office_name ON office (name);
 CREATE INDEX IX_office_phone ON office (phone);
 CREATE INDEX IX_office_is_active ON office (is_active);
-
 CREATE INDEX IX_user_first_name ON user (first_name);
 CREATE INDEX IX_user_last_name ON user (last_name);
 CREATE INDEX IX_user_middle_name ON user (middle_name);
 CREATE INDEX IX_user_position ON user (position);
-
 CREATE INDEX IX_organization_name ON organization (name);
 CREATE INDEX IX_organization_inn ON organization (inn);
 CREATE INDEX IX_organization_is_active ON organization (is_active);
-
 CREATE INDEX IX_doctype_code on doctype (code);
-
 CREATE INDEX IX_country_code on country (code);
+
+//Indexes for foreign keys (although H2 creates them automatically)
+CREATE INDEX IX_document_type_code on document (type_code);
+CREATE INDEX IX_office_org_id on office (org_id);
+CREATE INDEX IX_user_citiz_id on user (citiz_id);
+CREATE INDEX IX_user_office_id on user (office_id);
+CREATE INDEX IX_user_doc_id on user (doc_id);

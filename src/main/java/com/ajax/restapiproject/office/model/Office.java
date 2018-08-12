@@ -1,6 +1,5 @@
 package com.ajax.restapiproject.office.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,8 +28,8 @@ public class Office extends LegalEntity{
 	@JoinColumn(name = "org_id")
 	private Organization org;
 	
-	@OneToMany(mappedBy="office", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-	private List<User> users = new ArrayList<User>();
+	@OneToMany(mappedBy="office", orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<User> users;
 	
 	public Organization getOrg() {
 		return org;

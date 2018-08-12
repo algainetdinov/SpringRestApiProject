@@ -49,7 +49,7 @@ public class User extends Person{
 	/**
 	 * Person's document
 	 */
-	@OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
 	@JoinColumn(name="doc_id") 
 	private Document doc;
 	
