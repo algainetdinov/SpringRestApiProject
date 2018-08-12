@@ -1,5 +1,6 @@
 package com.ajax.restapiproject.organization.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,7 +41,7 @@ public class Organization extends LegalEntity{
 	 * List of related offices
 	 */
 	@OneToMany(mappedBy="org", orphanRemoval = true, cascade = CascadeType.ALL)
-	private List<Office> offices;
+	private List<Office> offices = new ArrayList<Office>();
 	
 	public String getFullName() {
 		return fullName;
