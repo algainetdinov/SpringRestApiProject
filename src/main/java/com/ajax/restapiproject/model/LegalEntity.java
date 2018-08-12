@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
  * Superclass for a legal entities
  */
 @MappedSuperclass
-public class LegalEntity extends BaseEntity{
+public class LegalEntity extends BaseEntity {
 
 	/**
 	 * Name of legal entity
@@ -32,7 +32,7 @@ public class LegalEntity extends BaseEntity{
 	 */
 	@Column(name = "is_active")
 	private Boolean isActive;
-	
+
 	public String getName() {
 		return name;
 	}

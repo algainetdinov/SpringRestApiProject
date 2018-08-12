@@ -19,24 +19,25 @@ import com.ajax.restapiproject.organization.model.Organization;
 
 /**
  * Tests office DAO implementation
+ * 
  * @author Al
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase 
-@AutoConfigureTestEntityManager 
+@AutoConfigureTestDatabase
+@AutoConfigureTestEntityManager
 @Transactional
 public class OfficeDaoImplTests {
-	
+
 	@Autowired
 	private OfficeDaoImpl officeDao;
-	
+
 	@Autowired
 	private TestEntityManager entityManager;
-		
+
 	private static Long officeId;
-	
+
 	/**
 	 * Create test organization and office
 	 */
@@ -54,10 +55,10 @@ public class OfficeDaoImplTests {
 		office.setOrg(org);
 		org.getOffices().add(office);
 		entityManager.persist(org);
-		entityManager.persist(office);	
+		entityManager.persist(office);
 		officeId = office.getId();
 	}
-	
+
 	/**
 	 * Test retrieving of office
 	 */
@@ -65,7 +66,7 @@ public class OfficeDaoImplTests {
 	public void findByIdTest() {
 		assertThat(officeDao.findById(officeId)).isNotNull();
 	}
-	
+
 	/**
 	 * Test retrieving of office by organization
 	 */
@@ -74,28 +75,25 @@ public class OfficeDaoImplTests {
 		Office office = officeDao.findById(officeId);
 		assertThat(officeDao.findByOrg(office)).hasAtLeastOneElementOfType(Office.class);
 	}
-	
+
 	/**
 	 * Test deleting of office
 	 */
 	@Test
 	public void deleteTest() {
 		int initialCount = officeDao.findAll().size();
-		System.out.println(initialCount);
-		System.out.println(officeDao.findById(officeId));
 		Office office = officeDao.findAll().get(initialCount - 1);
 		office.getOrg().getOffices().remove(office);
 		office.setOrg(null);
 		officeDao.delete(office);
-		System.out.println(officeDao.findAll().size());
 		assertThat(officeDao.findAll().size()).isEqualTo(initialCount - 1);
 	}
-	
+
 	/**
 	 * Test saving of office
 	 */
 	@Test
-	public void saveTest () {
+	public void saveTest() {
 		int initialLength = officeDao.findAll().size();
 		Office office = new Office();
 		office.setName("Ajax");
@@ -104,4 +102,3 @@ public class OfficeDaoImplTests {
 		assertThat(officeDao.findAll().size()).isEqualTo(initialLength + 1);
 	}
 }
-

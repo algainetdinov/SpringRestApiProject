@@ -10,46 +10,47 @@ import io.swagger.annotations.ApiModelProperty;
  * View for displaying user data retrieved by /list request
  */
 @ApiModel
-@JsonPropertyOrder({"id", "firstName", "lastName", "middleName", "position"})
+@JsonPropertyOrder({ "id", "firstName", "lastName", "middleName", "position" })
 public class UserListViewResp {
-	
+
 	/**
 	 * User identifier
 	 */
 	@ApiModelProperty(value = "User identifier", position = 1)
 	@JsonProperty("id")
 	public String id;
-	
+
 	/**
 	 * User first name
 	 */
 	@ApiModelProperty(value = "User first name", position = 2)
 	@JsonProperty("firstName")
 	public String firstName;
-	
+
 	/**
 	 * User last name
 	 */
 	@ApiModelProperty(value = "User last name", position = 3)
 	@JsonProperty("lastName")
 	public String lastName;
-	
+
 	/**
 	 * User middle name
 	 */
 	@ApiModelProperty(value = "User middle name", position = 4)
 	@JsonProperty("middleName")
 	public String middleName;
-	
+
 	/**
 	 * User position
 	 */
 	@ApiModelProperty(value = "User position", position = 5)
 	@JsonProperty("position")
 	public String position;
-	
+
 	/**
 	 * Constructor for initializing class fields
+	 * 
 	 * @param id
 	 * @param firstName
 	 * @param lastName

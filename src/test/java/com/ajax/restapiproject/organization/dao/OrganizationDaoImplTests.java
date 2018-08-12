@@ -18,24 +18,25 @@ import com.ajax.restapiproject.organization.model.Organization;
 
 /**
  * Tests organization DAO implementation
+ * 
  * @author Al
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase 
-@AutoConfigureTestEntityManager 
+@AutoConfigureTestDatabase
+@AutoConfigureTestEntityManager
 @Transactional
 public class OrganizationDaoImplTests {
-	
+
 	@Autowired
 	private OrganizationDaoImpl organizationDao;
-	
+
 	@Autowired
 	private TestEntityManager entityManager;
-	
+
 	private static Long orgId;
-	
+
 	/**
 	 * Create test organization
 	 */
@@ -46,11 +47,11 @@ public class OrganizationDaoImplTests {
 		org.setName("orgName");
 		org.setFullName("orgFullName");
 		org.setInn("1111111111");
-		org.setKpp("11111111");	
+		org.setKpp("11111111");
 		entityManager.persist(org);
 		orgId = org.getId();
 	}
-	
+
 	/**
 	 * Test retrieving of organization
 	 */
@@ -58,7 +59,7 @@ public class OrganizationDaoImplTests {
 	public void findByIdTest() {
 		assertThat(organizationDao.findById(orgId)).isNotNull();
 	}
-	
+
 	/**
 	 * Test retrieving of organization by name
 	 */
@@ -67,7 +68,7 @@ public class OrganizationDaoImplTests {
 		Organization org = organizationDao.findById(orgId);
 		assertThat(organizationDao.findByName(org)).hasAtLeastOneElementOfType(Organization.class);
 	}
-	
+
 	/**
 	 * Test deleting of organization
 	 */
@@ -77,12 +78,12 @@ public class OrganizationDaoImplTests {
 		organizationDao.delete(organizationDao.findById(orgId));
 		assertThat(organizationDao.findAll().size()).isEqualTo(initialCount - 1);
 	}
-	
+
 	/**
 	 * Test saving of organization
 	 */
 	@Test
-	public void saveTest () {
+	public void saveTest() {
 		int initialLength = organizationDao.findAll().size();
 		Organization organization = new Organization();
 		organization.setName("Ajax");
@@ -94,4 +95,3 @@ public class OrganizationDaoImplTests {
 		assertThat(organizationDao.findAll().size()).isEqualTo(initialLength + 1);
 	}
 }
-

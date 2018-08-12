@@ -14,28 +14,23 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger configuration
+ * 
  * @author Al
  *
  */
 @Configuration
 @EnableSwagger2
 @PropertySource("classpath:swagger.properties")
-public class SwaggerConfig {                                    
-    @Bean
-    public Docket api() { 
-        return new Docket(DocumentationType.SWAGGER_2)  
-          .select()                                  
-          .apis(RequestHandlerSelectors.basePackage("com.ajax.restapiproject"))              
-          .paths(PathSelectors.any())                          
-          .build()
-          .useDefaultResponseMessages(false)
-          .apiInfo(apiInfo());                                           
-    }
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Spring REST Sample with Swagger")
-                .description("Spring REST Sample with Swagger")
-                .version("1.0")
-                .build();
-    }
+public class SwaggerConfig {
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.ajax.restapiproject")).paths(PathSelectors.any()).build()
+				.useDefaultResponseMessages(false).apiInfo(apiInfo());
+	}
+
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder().title("Spring REST Sample with Swagger")
+				.description("Spring REST Sample with Swagger").version("1.0").build();
+	}
 }

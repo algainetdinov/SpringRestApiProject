@@ -8,19 +8,19 @@ import com.ajax.restapiproject.country.model.Country;
  * DAO for counties
  */
 public interface CountryDao {
-	
+
 	/**
 	 * Get list of countries
 	 */
 	List<Country> findAll();
-	
+
 	/**
 	 * Find country by code
 	 */
 	Country findByCode(String code);
-	
+
 	/**
 	 * Find country by ID
 	 */
-	Country findById(Long id);	
+	Country findById(Long id);
 }

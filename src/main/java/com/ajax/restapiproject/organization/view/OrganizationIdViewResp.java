@@ -10,37 +10,36 @@ import io.swagger.annotations.ApiModelProperty;
  * View for displaying organization data retrieved by ID
  */
 @ApiModel
-@JsonPropertyOrder({"id", "name", "fullname", "inn", "kpp", "address", "phone", "isActive"})
+@JsonPropertyOrder({ "id", "name", "fullname", "inn", "kpp", "address", "phone", "isActive" })
 public class OrganizationIdViewResp {
-	
+
 	/**
 	 * Organization identifier
 	 */
 	@ApiModelProperty(value = "Organization identifier", position = 1)
 	@JsonProperty("id")
 	public String id;
-	
+
 	/**
 	 * Organization name
 	 */
 	@ApiModelProperty(value = "name", position = 2)
 	@JsonProperty("name")
 	public String name;
-	
+
 	/**
 	 * Organization full name
 	 */
 	@ApiModelProperty(value = "fullName", position = 3)
 	@JsonProperty("fullName")
 	public String fullName;
-	
+
 	/**
 	 * Organization INN
 	 */
 	@ApiModelProperty(value = "inn", position = 4)
 	@JsonProperty("inn")
 	public String inn;
-
 
 	/**
 	 * Organization KPP
@@ -49,14 +48,12 @@ public class OrganizationIdViewResp {
 	@JsonProperty("kpp")
 	public String kpp;
 
-
 	/**
 	 * Organization address
 	 */
 	@ApiModelProperty(value = "address", position = 6)
 	@JsonProperty("address")
 	public String address;
-
 
 	/**
 	 * Organization phone
@@ -65,16 +62,16 @@ public class OrganizationIdViewResp {
 	@JsonProperty("phone")
 	public String phone;
 
-
 	/**
 	 * Organization activity
 	 */
 	@ApiModelProperty(value = "isActive", position = 8)
 	@JsonProperty("isActive")
 	public String isActive;
-	
+
 	/**
 	 * Constructor for initializing class fields
+	 * 
 	 * @param id
 	 * @param name
 	 * @param fullName

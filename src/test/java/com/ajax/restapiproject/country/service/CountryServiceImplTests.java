@@ -17,37 +17,38 @@ import com.ajax.restapiproject.view.DictionaryView;
 
 /**
  * Tests Country service implementation
+ * 
  * @author Al
  *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class CountryServiceImplTests {
-	
+
 	@InjectMocks
 	private CountryServiceImpl countryService;
-	
+
 	@Mock
 	private CountryDao countryDao;
-	
+
 	@Mock
 	private Country country;
-	
+
 	/**
 	 * Check that country with id 1L exists
 	 */
 	@Test
-	public void loadByIdTest() {	
-		
+	public void loadByIdTest() {
+
 		when(countryDao.findById(anyLong())).thenReturn(country);
 		assertThat(countryService.loadById(1L)).isNotNull();
-	}	
-	
+	}
+
 	/**
 	 * Check that list of countries could be retrieved
 	 */
 	@Test
 	public void loadAllTest() {
-		
+
 		when(countryDao.findAll()).thenReturn(Arrays.asList(new Country()));
 		assertThat(countryService.loadAll()).hasAtLeastOneElementOfType(DictionaryView.class);
 	}

@@ -41,49 +41,49 @@ import ma.glasnost.orika.MappingContext.Factory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTests {
-	
+
 	@InjectMocks
 	private UserServiceImpl userService;
-	
+
 	@Mock
 	private UserDao userDao;
-	
+
 	@Mock
 	private OfficeDao officeDao;
-	
+
 	@Mock
 	private DoctypeDao doctypeDao;
-	
+
 	@Mock
 	private CountryDao countryDao;
-	
+
 	@Mock
-	private UserValidation userVal; 
-	
+	private UserValidation userVal;
+
 	@Mock
 	private UserMapper userMapper;
-	
+
 	@Mock
 	private Office office;
-	
+
 	@Mock
 	private User user;
-	
+
 	@Mock
 	private Document doc;
-	
-	@Mock 
+
+	@Mock
 	private Doctype type;
-	
+
 	@Mock
 	private Country country;
-		
+
 	/**
 	 * Check that user with id 15 exists
 	 */
 	@Test
-	public void loadByIdSuccessTest() {	
-		
+	public void loadByIdSuccessTest() {
+
 		when(userDao.findById(anyLong())).thenReturn(user);
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
 		when(office.getId()).thenReturn(1L);
@@ -96,183 +96,182 @@ public class UserServiceImplTests {
 		when(type.getCode()).thenReturn("01");
 		when(type.getName()).thenReturn("passport");
 		when(doc.getDocNumber()).thenReturn("0101");
-		when(doc.getDocDate()).thenReturn(new Date());		
+		when(doc.getDocDate()).thenReturn(new Date());
 		assertThat(userService.loadById("15")).isInstanceOf(UserIdViewResp.class);
-	}	
-	
+	}
+
 	/**
 	 * Check that user with id 3 do not exists
 	 */
-	@Test (expected = NotFoundException.class)
+	@Test(expected = NotFoundException.class)
 	public void loadByIdUserNotFoundTest() {
-		
+
 		when(userDao.findById(anyLong())).thenReturn(null);
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
 		assertThat(userService.loadById("3")).isInstanceOf(NotFoundException.class);
 	}
-	
+
 	/**
 	 * Check that id is wrong
 	 */
-	@Test (expected = BadRequestException.class)
-	public void loadByIdBadRequestTest() {		
-		
+	@Test(expected = BadRequestException.class)
+	public void loadByIdBadRequestTest() {
+
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("Wrong id");
-		assertThat(userService.loadById("Z")).isInstanceOf(BadRequestException.class);		
+		assertThat(userService.loadById("Z")).isInstanceOf(BadRequestException.class);
 	}
-	
+
 	/**
 	 * Test for non-existing office
 	 */
 	@Test(expected = NotFoundException.class)
-	public void loadByOfficeNotFoundTest () {
-		
+	public void loadByOfficeNotFoundTest() {
+
 		UserListViewReq userListViewReq = mock(UserListViewReq.class);
-		//Since I cannot use when(userListViewReq.officeId).thenReturn("1")
-		userListViewReq.officeId="1";
+		// Since I cannot use when(userListViewReq.officeId).thenReturn("1")
+		userListViewReq.officeId = "1";
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
 		when(officeDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.loadByOffice(userListViewReq)).isInstanceOf(NotFoundException.class);
-		
+
 	}
-	
+
 	/**
 	 * Check for wrong Id
 	 */
 	@Test(expected = BadRequestException.class)
-	public void loadByOfficeBadRequestTest () {
-		
+	public void loadByOfficeBadRequestTest() {
+
 		UserListViewReq userListViewReq = mock(UserListViewReq.class);
-		//Since I cannot use when(userListViewReq.officeId).thenReturn("1")
-		userListViewReq.officeId="1";
+		// Since I cannot use when(userListViewReq.officeId).thenReturn("1")
+		userListViewReq.officeId = "1";
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("Wrong Id");
 		assertThat(userService.loadByOffice(userListViewReq)).isInstanceOf(BadRequestException.class);
 	}
-	
+
 	/**
 	 * Check for successful loading by office
 	 */
 	@Test
-	public void loadByOfficeSuccessTest () {
-		
+	public void loadByOfficeSuccessTest() {
+
 		UserListViewReq userListViewReq = mock(UserListViewReq.class);
 		MappingContext mapContext = mock(MappingContext.class);
 		Factory fact = mock(Factory.class);
 		when(fact.getContext()).thenReturn(mapContext);
-		when(userMapper.map(any(UserListViewReq.class), any(), any(MappingContext.class))).
-				thenReturn(user);
-		//Since I cannot use when(userListViewReq.officeId).thenReturn("1")
+		when(userMapper.map(any(UserListViewReq.class), any(), any(MappingContext.class))).thenReturn(user);
+		// Since I cannot use when(userListViewReq.officeId).thenReturn("1")
 		userListViewReq.officeId = "1";
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn(null);
 		when(userDao.findByOffice(any(User.class))).thenReturn(Arrays.asList(user));
 		when(officeDao.findById(anyLong())).thenReturn(office);
 		assertThat(userService.loadByOffice(userListViewReq)).hasAtLeastOneElementOfType(UserListViewResp.class);
 	}
-	
+
 	/**
 	 * Try to send request without required fields
 	 */
 	@Test(expected = BadRequestException.class)
-	public void saveBadRequestTest () {
-		
-		UserSaveViewReq userSaveViewReq = mock (UserSaveViewReq.class);
+	public void saveBadRequestTest() {
+
+		UserSaveViewReq userSaveViewReq = mock(UserSaveViewReq.class);
 		when(userVal.valFirstName(anyString(), anyBoolean())).thenReturn("Error");
 		assertThat(userService.save(userSaveViewReq)).isInstanceOf(BadRequestException.class);
 	}
-	
+
 	/**
 	 * Try to send request with non-existing office
 	 */
 	@Test(expected = NotFoundException.class)
-	public void saveNotFoundTest () {
-		
-		UserSaveViewReq userSaveViewReq = mock (UserSaveViewReq.class);
-		userSaveViewReq.officeId="1";
+	public void saveNotFoundTest() {
+
+		UserSaveViewReq userSaveViewReq = mock(UserSaveViewReq.class);
+		userSaveViewReq.officeId = "1";
 		when(officeDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.save(userSaveViewReq)).isInstanceOf(NotFoundException.class);
 	}
-	
+
 	/**
 	 * Successful save
 	 */
 	@Test
-	public void saveSuccessTest () {
-		
-		UserSaveViewReq userSaveViewReq = mock (UserSaveViewReq.class);
-		userSaveViewReq.officeId="1";
-		when(officeDao.findById(anyLong())).thenReturn(office);		
+	public void saveSuccessTest() {
+
+		UserSaveViewReq userSaveViewReq = mock(UserSaveViewReq.class);
+		userSaveViewReq.officeId = "1";
+		when(officeDao.findById(anyLong())).thenReturn(office);
 		assertThat(userService.save(userSaveViewReq)).isInstanceOf(SuccessView.class);
 	}
-	
+
 	/**
 	 * Check request with invalid Id
 	 */
 	@Test(expected = BadRequestException.class)
 	public void updateBadRequestTest() {
-		
-		UserUpdateViewReq userUpdateViewReq = mock (UserUpdateViewReq.class);
+
+		UserUpdateViewReq userUpdateViewReq = mock(UserUpdateViewReq.class);
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("Error");
 		assertThat(userService.update(userUpdateViewReq)).isInstanceOf(BadRequestException.class);
 	}
-	
+
 	/**
 	 * Try to update non-existing user
 	 */
 	@Test(expected = NotFoundException.class)
 	public void updateNotFoundTest() {
-		
-		UserUpdateViewReq userUpdateViewReq = mock (UserUpdateViewReq.class);
+
+		UserUpdateViewReq userUpdateViewReq = mock(UserUpdateViewReq.class);
 		userUpdateViewReq.id = "1";
 		when(userDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.update(userUpdateViewReq)).isInstanceOf(NotFoundException.class);
 	}
-	
+
 	/**
 	 * Successful update
 	 */
 	@Test
 	public void updateSuccessTest() {
-		
-		UserUpdateViewReq userUpdateViewReq = mock (UserUpdateViewReq.class);
+
+		UserUpdateViewReq userUpdateViewReq = mock(UserUpdateViewReq.class);
 		userUpdateViewReq.id = "1";
 		userUpdateViewReq.firstName = "John";
 		userUpdateViewReq.position = "Manager";
 		when(userDao.findById(anyLong())).thenReturn(user);
 		assertThat(userService.update(userUpdateViewReq)).isInstanceOf(SuccessView.class);
 	}
-	
+
 	/**
 	 * Try to delete user with wrong Id
 	 */
 	@Test(expected = BadRequestException.class)
 	public void deleteByIdBadRequestTest() {
-		
+
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("Error");
 		assertThat(userService.deleteById("1")).isInstanceOf(BadRequestException.class);
 	}
-	
+
 	/**
 	 * Try to delete non-existing user
 	 */
 	@Test(expected = NotFoundException.class)
 	public void deleteByIdNotFoundTest() {
-		
+
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("");
 		when(userDao.findById(anyLong())).thenReturn(null);
 		assertThat(userService.deleteById("1")).isInstanceOf(NotFoundException.class);
 	}
-	
+
 	/**
 	 * Successful deletion
 	 */
 	@Test
 	public void deleteByIdSuccessTest() {
-	
+
 		when(userVal.valId(anyString(), anyBoolean())).thenReturn("");
 		when(userDao.findById(anyLong())).thenReturn(user);
 		when(user.getOffice()).thenReturn(office);
-		when(office.getUsers()).thenReturn(Arrays.asList(new User()));		
+		when(office.getUsers()).thenReturn(Arrays.asList(new User()));
 		assertThat(userService.deleteById("1")).isInstanceOf(SuccessView.class);
-	}	
+	}
 
 }

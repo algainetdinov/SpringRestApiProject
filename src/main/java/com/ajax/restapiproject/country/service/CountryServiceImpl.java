@@ -14,26 +14,27 @@ import com.ajax.restapiproject.view.DictionaryView;
  * Country service implementation
  */
 @Service
-public class CountryServiceImpl implements CountryService{
-	
+public class CountryServiceImpl implements CountryService {
+
 	private final CountryDao countryDao;
-	
+
 	/**
 	 * Constructor to set final fields
+	 * 
 	 * @param countryDao
 	 */
 	@Autowired
 	public CountryServiceImpl(CountryDao countryDao) {
-		
+
 		this.countryDao = countryDao;
 	}
-	
+
 	/**
 	 * Retrieve country by Id
 	 */
 	@Override
 	public Country loadById(Long id) {
-		
+
 		return countryDao.findById(id);
 	}
 
@@ -42,16 +43,16 @@ public class CountryServiceImpl implements CountryService{
 	 */
 	@Override
 	public List<DictionaryView> loadAll() {
-		
+
 		List<DictionaryView> countryViews = new ArrayList<DictionaryView>();
-		
-		for (Country c:countryDao.findAll()) {
-			
+
+		for (Country c : countryDao.findAll()) {
+
 			DictionaryView countryView = new DictionaryView(c.getCode(), c.getName());
-			
+
 			countryViews.add(countryView);
 		}
-		
+
 		return countryViews;
 	}
 }

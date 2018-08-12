@@ -12,6 +12,7 @@ import com.ajax.restapiproject.view.DictionaryView;
 
 /**
  * Doctype service implementation
+ * 
  * @author Al
  *
  */
@@ -19,19 +20,19 @@ import com.ajax.restapiproject.view.DictionaryView;
 public class DoctypeServiceImpl implements DoctypeService {
 
 	private DoctypeDao doctypeDao;
-	
+
 	@Autowired
 	public DoctypeServiceImpl(DoctypeDao doctypeDao) {
-		
+
 		this.doctypeDao = doctypeDao;
 	}
-	
+
 	/**
 	 * Find doctype by Id
 	 */
 	@Override
 	public Doctype loadById(Long id) {
-		
+
 		return doctypeDao.findById(id);
 	}
 
@@ -40,7 +41,7 @@ public class DoctypeServiceImpl implements DoctypeService {
 	 */
 	@Override
 	public Doctype loadByCode(String code) {
-		
+
 		return doctypeDao.findByCode(code);
 	}
 
@@ -49,17 +50,17 @@ public class DoctypeServiceImpl implements DoctypeService {
 	 */
 	@Override
 	public List<DictionaryView> loadAll() {
-		
+
 		List<Doctype> doctypeList = doctypeDao.findAll();
-		
+
 		List<DictionaryView> dicView = new ArrayList<>();
-		
+
 		for (Doctype doctype : doctypeList) {
-			
+
 			dicView.add(new DictionaryView(doctype.getCode(), doctype.getName()));
-		
+
 		}
-		
+
 		return dicView;
 	}
 

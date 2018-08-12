@@ -7,20 +7,20 @@ import javax.persistence.MappedSuperclass;
  * Superclass for all physical persons
  */
 @MappedSuperclass
-public class Person extends BaseEntity{
-	
+public class Person extends BaseEntity {
+
 	/**
 	 * Person's first name
 	 */
 	@Column(name = "first_name", length = 32, nullable = false)
 	private String firstName;
-	
+
 	/**
 	 * Person's last name
 	 */
 	@Column(name = "last_name", length = 32)
 	private String lastName;
-	
+
 	/**
 	 * Person's middle name
 	 */
@@ -49,5 +49,5 @@ public class Person extends BaseEntity{
 
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
-	}	
+	}
 }

@@ -30,128 +30,119 @@ import com.ajax.restapiproject.view.SuccessView;
 
 /**
  * Test organization controller
+ * 
  * @author Al
  *
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrganizationController.class)
 public class OrganizationControllerTests {
-	
-		@Autowired
-		private MockMvc mvc;
 
-		@MockBean
-		private OrganizationService organizationService;
-		
-		/**
-		 * Test get by Id request
-		 * @throws Exception
-		 */
-		@Test
-		public void getByIdTest() throws Exception {
-			
-			RequestBuilder request = MockMvcRequestBuilders
-					.get("/api/organization/1")
-					.accept(MediaType.APPLICATION_JSON);
-			
-			OrganizationIdViewResp viewResp = new OrganizationIdViewResp("1", "Ajax", "Ajax inc.", "1111111111", "222222222", 
-					"Moscow Lenina str", "(495) 000 00 00", "true");
-			
-			when(organizationService.loadById(anyString())).thenReturn(viewResp);
-			
-			mvc.perform(request)
-					.andExpect(status().isOk())
-					.andExpect(content().json("{\"data\":{\"id\":\"1\",\"name\":\"Ajax\",\"address\":\"Moscow Lenina str\","
-							+ "\"phone\":\"(495) 000 00 00\",\"isActive\":\"true\"}}"))
-					.andReturn();
-		}
-		
-		/**
-		 * Test get list of organizations
-		 * @throws Exception
-		 */
-		@Test
-		public void getByNameTest() throws Exception {
-			
-			RequestBuilder request = MockMvcRequestBuilders
-					.post("/api/organization/list")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content("{\"name\":\"Ajax\"}");
-			
-			List<OrganizationListViewResp> viewResp = Arrays.asList(new OrganizationListViewResp("1", "Ajax", "true"));
-			
-			when(organizationService.loadByName(Mockito.any(OrganizationListViewReq.class))).thenReturn(viewResp);
-			
-			mvc.perform(request)
-					.andExpect(status().isOk())
-					.andExpect(content().json("{\"data\":[{\"id\":\"1\",\"name\":\"Ajax\",\"isActive\":\"true\"}]}"))
-					.andReturn();
-		}
-		
-		/**
-		 * Test update organization request
-		 * @throws Exception
-		 */
-		@Test
-		public void updateTest() throws Exception {
-			
-			RequestBuilder request = MockMvcRequestBuilders
-					.post("/api/organization/update")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content("{\"id\":\"1\",\"name\":\"Ajax\",\"fullName\":\"Ajax inc.\",\"inn\":\"1111111111\","
-							+ "\"kpp\":\"22222222\",\"address\":\"Moscow Lenina str\"}");
-				
-			SuccessView viewResp = new SuccessView("success");
-			
-			when(organizationService.update(Mockito.any(OrganizationUpdateViewReq.class))).thenReturn(viewResp);
-			
-			mvc.perform(request)
-					.andExpect(status().isOk())
-					.andExpect(content().json("{\"data\":{\"result\":\"success\"}}"))
-					.andReturn();
-		}
-		
-		/**
-		 * Test save organization request
-		 * @throws Exception
-		 */
-		@Test
-		public void saveTest() throws Exception {
-			
-			RequestBuilder request = MockMvcRequestBuilders
-					.post("/api/organization/save")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content("{\"name\":\"Ajax\",\"fullName\":\"Ajax inc.\",\"inn\":\"1111111111\","
-							+ "\"kpp\":\"22222222\",\"address\":\"Moscow Lenina str\"}");
-				
-			SuccessView viewResp = new SuccessView("success");
-			
-			when(organizationService.save(Mockito.any(OrganizationSaveViewReq.class))).thenReturn(viewResp);
-			
-			mvc.perform(request)
-					.andExpect(status().is2xxSuccessful())
-					.andExpect(content().json("{\"data\":{\"result\":\"success\"}}"))
-					.andReturn();
-		}
-		
-		/**
-		 * Test delete organization request
-		 * @throws Exception
-		 */
-		@Test
-		public void deleteByIdTest() throws Exception {
-			
-			RequestBuilder request = MockMvcRequestBuilders
-					.get("/api/organization/delete/1")
-					.contentType(MediaType.APPLICATION_JSON);
-				
-			SuccessView viewResp = new SuccessView("success");
-			
-			when(organizationService.deleteById(anyString())).thenReturn(viewResp);
-			
-			mvc.perform(request)
-					.andExpect(status().isOk())
-					.andExpect(content().json("{\"data\":{\"result\":\"success\"}}"))
-					.andReturn();
-		}
+	@Autowired
+	private MockMvc mvc;
+
+	@MockBean
+	private OrganizationService organizationService;
+
+	/**
+	 * Test get by Id request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void getByIdTest() throws Exception {
+
+		RequestBuilder request = MockMvcRequestBuilders.get("/api/organization/1").accept(MediaType.APPLICATION_JSON);
+
+		OrganizationIdViewResp viewResp = new OrganizationIdViewResp("1", "Ajax", "Ajax inc.", "1111111111",
+				"222222222", "Moscow Lenina str", "(495) 000 00 00", "true");
+
+		when(organizationService.loadById(anyString())).thenReturn(viewResp);
+
+		mvc.perform(request).andExpect(status().isOk())
+				.andExpect(content().json("{\"data\":{\"id\":\"1\",\"name\":\"Ajax\",\"address\":\"Moscow Lenina str\","
+						+ "\"phone\":\"(495) 000 00 00\",\"isActive\":\"true\"}}"))
+				.andReturn();
+	}
+
+	/**
+	 * Test get list of organizations
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void getByNameTest() throws Exception {
+
+		RequestBuilder request = MockMvcRequestBuilders.post("/api/organization/list")
+				.contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"Ajax\"}");
+
+		List<OrganizationListViewResp> viewResp = Arrays.asList(new OrganizationListViewResp("1", "Ajax", "true"));
+
+		when(organizationService.loadByName(Mockito.any(OrganizationListViewReq.class))).thenReturn(viewResp);
+
+		mvc.perform(request).andExpect(status().isOk())
+				.andExpect(content().json("{\"data\":[{\"id\":\"1\",\"name\":\"Ajax\",\"isActive\":\"true\"}]}"))
+				.andReturn();
+	}
+
+	/**
+	 * Test update organization request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void updateTest() throws Exception {
+
+		RequestBuilder request = MockMvcRequestBuilders.post("/api/organization/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"id\":\"1\",\"name\":\"Ajax\",\"fullName\":\"Ajax inc.\",\"inn\":\"1111111111\","
+						+ "\"kpp\":\"22222222\",\"address\":\"Moscow Lenina str\"}");
+
+		SuccessView viewResp = new SuccessView("success");
+
+		when(organizationService.update(Mockito.any(OrganizationUpdateViewReq.class))).thenReturn(viewResp);
+
+		mvc.perform(request).andExpect(status().isOk()).andExpect(content().json("{\"data\":{\"result\":\"success\"}}"))
+				.andReturn();
+	}
+
+	/**
+	 * Test save organization request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void saveTest() throws Exception {
+
+		RequestBuilder request = MockMvcRequestBuilders.post("/api/organization/save")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"name\":\"Ajax\",\"fullName\":\"Ajax inc.\",\"inn\":\"1111111111\","
+						+ "\"kpp\":\"22222222\",\"address\":\"Moscow Lenina str\"}");
+
+		SuccessView viewResp = new SuccessView("success");
+
+		when(organizationService.save(Mockito.any(OrganizationSaveViewReq.class))).thenReturn(viewResp);
+
+		mvc.perform(request).andExpect(status().is2xxSuccessful())
+				.andExpect(content().json("{\"data\":{\"result\":\"success\"}}")).andReturn();
+	}
+
+	/**
+	 * Test delete organization request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void deleteByIdTest() throws Exception {
+
+		RequestBuilder request = MockMvcRequestBuilders.get("/api/organization/delete/1")
+				.contentType(MediaType.APPLICATION_JSON);
+
+		SuccessView viewResp = new SuccessView("success");
+
+		when(organizationService.deleteById(anyString())).thenReturn(viewResp);
+
+		mvc.perform(request).andExpect(status().isOk()).andExpect(content().json("{\"data\":{\"result\":\"success\"}}"))
+				.andReturn();
+	}
 }

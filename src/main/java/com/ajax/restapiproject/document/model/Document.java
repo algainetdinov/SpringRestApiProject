@@ -19,21 +19,21 @@ import com.ajax.restapiproject.model.BaseEntity;
  */
 @Entity
 @Table(name = "document")
-public class Document extends BaseEntity{
-	
+public class Document extends BaseEntity {
+
 	/**
 	 * Date of issuing a document
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date")
 	private Date docDate;
-	
+
 	/**
 	 * Number of a document
 	 */
 	@Column(name = "number", length = 32, nullable = true)
 	private String docNumber;
-	
+
 	/**
 	 * Type of a document
 	 */

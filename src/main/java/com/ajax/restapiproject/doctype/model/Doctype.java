@@ -8,16 +8,14 @@ import javax.persistence.Table;
 import com.ajax.restapiproject.model.DictionaryEntity;
 
 /**
- * Dictionary for storing document types provided by 
- * Приложение №3 к Требованиям к оформлению
- * документов, представляемых в регистрирующий орган.
- * Variables and methods inherited from 
- * DictionaryEntity class
+ * Dictionary for storing document types provided by Приложение №3 к Требованиям
+ * к оформлению документов, представляемых в регистрирующий орган. Variables and
+ * methods inherited from DictionaryEntity class
  */
 @Entity
 @Table(name = "doctype")
 @AttributeOverride(column = @Column(name = "name", unique = true, length = 128, nullable = false), name = "name")
-public class Doctype extends DictionaryEntity{
+public class Doctype extends DictionaryEntity {
 
 	/**
 	 * toString method

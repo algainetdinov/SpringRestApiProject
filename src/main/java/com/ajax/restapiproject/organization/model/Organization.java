@@ -17,32 +17,32 @@ import com.ajax.restapiproject.office.model.Office;
  */
 @Entity
 @Table(name = "organization")
-public class Organization extends LegalEntity{
-	
+public class Organization extends LegalEntity {
+
 	/**
 	 * Organization's full name
 	 */
 	@Column(name = "full_name", length = 64, nullable = false)
 	private String fullName;
-	
+
 	/**
 	 * Organization's INN. Length of legal entitiy's INN is 10 symbols
 	 */
 	@Column(name = "inn", length = 10, nullable = false)
 	private String inn;
-	
+
 	/**
 	 * Organization's KPP
 	 */
 	@Column(name = "kpp", length = 9, nullable = false)
 	private String kpp;
-	
+
 	/**
 	 * List of related offices
 	 */
-	@OneToMany(mappedBy="org", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "org", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Office> offices = new ArrayList<Office>();
-	
+
 	public String getFullName() {
 		return fullName;
 	}
@@ -66,7 +66,7 @@ public class Organization extends LegalEntity{
 	public void setKpp(String kpp) {
 		this.kpp = kpp;
 	}
-	
+
 	public List<Office> getOffices() {
 		return offices;
 	}
@@ -78,7 +78,7 @@ public class Organization extends LegalEntity{
 	@Override
 	public String toString() {
 		return "Organization [getFullName()=" + getFullName() + ", getInn()=" + getInn() + ", getKpp()=" + getKpp()
-				+ ", getName()=" + getName() + ", getPhone()=" + getPhone()
-				+ ", getAddress()=" + getAddress() + ", getIsActive()=" + getIsActive() + ", getId()=" + getId() + "]";
-	}		
+				+ ", getName()=" + getName() + ", getPhone()=" + getPhone() + ", getAddress()=" + getAddress()
+				+ ", getIsActive()=" + getIsActive() + ", getId()=" + getId() + "]";
+	}
 }

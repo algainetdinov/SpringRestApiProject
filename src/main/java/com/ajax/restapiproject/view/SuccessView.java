@@ -8,15 +8,16 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 public class SuccessView {
-	
+
 	/**
 	 * Success view
 	 */
 	@ApiModelProperty(value = "Request result")
 	public String result;
-		
+
 	/**
-	 * Constructor for initializing class fields 
+	 * Constructor for initializing class fields
+	 * 
 	 * @param result
 	 */
 	public SuccessView(String result) {

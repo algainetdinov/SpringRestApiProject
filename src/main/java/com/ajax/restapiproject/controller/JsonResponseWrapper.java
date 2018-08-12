@@ -13,30 +13,33 @@ import com.ajax.restapiproject.view.ExceptionView;
 
 /**
  * Wraps all non exception responses in data object
+ * 
  * @author Al
  *
  */
-@RestControllerAdvice(basePackages="com.ajax.restapiproject")
-public class JsonResponseWrapper implements ResponseBodyAdvice<Object>{
-	
-	    @Override
-	    public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-	        return true;
-	    }
-	    
-	    /**
-	     * In case of exception send a ExceptionView otherwise wrap response in a DataView
-	     */
-	    @Override
-	    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, 
-	    		Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request, ServerHttpResponse response) {
-	    	
-	        if (body instanceof ExceptionView) {
-	           return body;
-	        }
-	        
-	        else {
-	        	return new DataView(body);
-	        }
-	    }
+@RestControllerAdvice(basePackages = "com.ajax.restapiproject")
+public class JsonResponseWrapper implements ResponseBodyAdvice<Object> {
+
+	@Override
+	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+		return true;
+	}
+
+	/**
+	 * In case of exception send a ExceptionView otherwise wrap response in a
+	 * DataView
+	 */
+	@Override
+	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+			Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request,
+			ServerHttpResponse response) {
+
+		if (body instanceof ExceptionView) {
+			return body;
+		}
+
+		else {
+			return new DataView(body);
+		}
+	}
 }

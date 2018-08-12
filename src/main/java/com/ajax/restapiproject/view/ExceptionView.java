@@ -8,15 +8,16 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 public class ExceptionView {
-	
+
 	/**
 	 * Error response
 	 */
 	@ApiModelProperty(value = "Error message")
 	public String error;
-	
+
 	/**
-	 * Constructor for initializing class fields 
+	 * Constructor for initializing class fields
+	 * 
 	 * @param error
 	 */
 	public ExceptionView(String error) {

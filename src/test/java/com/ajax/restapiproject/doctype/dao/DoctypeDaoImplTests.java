@@ -18,24 +18,25 @@ import com.ajax.restapiproject.doctype.model.Doctype;
 
 /**
  * Tests doctype DAO implementation
+ * 
  * @author Al
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase 
-@AutoConfigureTestEntityManager 
+@AutoConfigureTestDatabase
+@AutoConfigureTestEntityManager
 @Transactional
 public class DoctypeDaoImplTests {
-	
+
 	@Autowired
 	private DoctypeDaoImpl doctypeDao;
-	
+
 	@Autowired
 	private TestEntityManager entityManager;
-	
+
 	private static Long docId;
-	
+
 	/**
 	 * Create test doctypes
 	 */
@@ -47,18 +48,18 @@ public class DoctypeDaoImplTests {
 		entityManager.persist(doc1);
 		docId = doc1.getId();
 	}
-	
+
 	/**
 	 * Test retrieving of doctypes
 	 */
 	@Test
 	public void findAllTest() {
-		for (Doctype doc:doctypeDao.findAll()) {
+		for (Doctype doc : doctypeDao.findAll()) {
 			System.out.println(doc);
 		}
 		assertThat(doctypeDao.findAll()).hasAtLeastOneElementOfType(Doctype.class);
 	}
-	
+
 	/**
 	 * Test retrieving of doctype by code
 	 */
@@ -66,7 +67,7 @@ public class DoctypeDaoImplTests {
 	public void findByCode() {
 		assertThat(doctypeDao.findByCode("10")).isNotNull();
 	}
-	
+
 	/**
 	 * Test retrieving of doctype by Id
 	 */
@@ -74,6 +75,5 @@ public class DoctypeDaoImplTests {
 	public void findById() {
 		assertThat(doctypeDao.findById(docId)).isNotNull();
 	}
-	
-}
 
+}

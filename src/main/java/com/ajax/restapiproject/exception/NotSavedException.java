@@ -5,9 +5,10 @@ package com.ajax.restapiproject.exception;
  */
 @SuppressWarnings("serial")
 public class NotSavedException extends ApiException {
-	
+
 	/**
 	 * Constructor of the ApiException superclass
+	 * 
 	 * @param code
 	 * @param message
 	 */

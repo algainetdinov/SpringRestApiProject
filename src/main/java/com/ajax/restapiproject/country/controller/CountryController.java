@@ -21,30 +21,31 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping(value = "/api/countries", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CountryController {
-	
+
 	private final CountryService countryService;
-	
+
 	/**
 	 * Constructor to set final fields
+	 * 
 	 * @param countryService
 	 */
 	@Autowired
-	public CountryController (CountryService countryService) {
-		
-		this.countryService=countryService;
+	public CountryController(CountryService countryService) {
+
+		this.countryService = countryService;
 	}
 
 	/**
 	 * Handle request for a list of countries
+	 * 
 	 * @return
 	 */
 	@ApiOperation("Returns list of countries")
-	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "Internal Server Error")})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 500, message = "Internal Server Error") })
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public List<DictionaryView> getAll() {
-		
+
 		return countryService.loadAll();
 	}
 }

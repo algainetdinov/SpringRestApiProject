@@ -7,14 +7,14 @@ import javax.persistence.MappedSuperclass;
  * Superclass for a dictionary classes
  */
 @MappedSuperclass
-public class DictionaryEntity extends BaseEntity{
-	
+public class DictionaryEntity extends BaseEntity {
+
 	/**
 	 * Common code field with default length 2
 	 */
 	@Column(name = "code", unique = true, length = 2, nullable = false)
 	private String code;
-	
+
 	/**
 	 * Common name column with default length 64
 	 */

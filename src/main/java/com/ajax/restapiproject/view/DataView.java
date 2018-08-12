@@ -8,15 +8,16 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 public class DataView {
-	
+
 	/**
 	 * Response wrapper
 	 */
 	@ApiModelProperty(value = "Response wrapper")
 	public Object data;
-	
+
 	/**
-	 * Constructor for initializing class fields 
+	 * Constructor for initializing class fields
+	 * 
 	 * @param data
 	 */
 	public DataView(Object data) {

@@ -9,15 +9,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Office validation tests
+ * 
  * @author Al
  *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class OfficeValidationTests {
-	
+
 	@InjectMocks
 	protected OfficeValidation officeVal;
-	
+
 	/**
 	 * Validate office name
 	 */
@@ -26,11 +27,12 @@ public class OfficeValidationTests {
 		assertThat(officeVal.valName("", false)).isEmpty();
 		assertThat(officeVal.valName("", true)).isNotEmpty();
 		assertThat(officeVal.valName("   Aj   ", false)).isNotEmpty();
-		assertThat(officeVal.valName("AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax"
-				+ "AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax", false)).isNotEmpty();
+		assertThat(
+				officeVal.valName("AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax" + "AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax", false))
+						.isNotEmpty();
 		assertThat(officeVal.valName("Ajax inc.", true)).isEmpty();
 	}
-	
+
 	/**
 	 * Validate office address
 	 */
@@ -39,11 +41,12 @@ public class OfficeValidationTests {
 		assertThat(officeVal.valAddress("", false)).isEmpty();
 		assertThat(officeVal.valAddress("", true)).isNotEmpty();
 		assertThat(officeVal.valAddress("   Mos   ", false)).isNotEmpty();
-		assertThat(officeVal.valAddress("MoscowMoscowMoscowMoscowMoscowMoscow"
-				+ "MoscowMoscowMoscowMoscowMoscow", false)).isNotEmpty();
+		assertThat(
+				officeVal.valAddress("MoscowMoscowMoscowMoscowMoscowMoscow" + "MoscowMoscowMoscowMoscowMoscow", false))
+						.isNotEmpty();
 		assertThat(officeVal.valAddress("Moscow Lenina str", true)).isEmpty();
 	}
-	
+
 	/**
 	 * Validate office activity
 	 */

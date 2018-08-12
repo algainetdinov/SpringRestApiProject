@@ -19,6 +19,7 @@ import com.ajax.restapiproject.office.model.Office;
 
 /**
  * Office DAO implementation
+ * 
  * @author Al
  *
  */
@@ -26,27 +27,28 @@ import com.ajax.restapiproject.office.model.Office;
 public class OfficeDaoImpl implements OfficeDao {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	private final EntityManager em;
-	
+
 	/**
 	 * Constructor to set final fields
+	 * 
 	 * @param em
 	 */
 	@Autowired
-	OfficeDaoImpl (EntityManager em) {
-		
+	OfficeDaoImpl(EntityManager em) {
+
 		this.em = em;
 	}
 
 	/**
-	 * Load an office by provided Id 
+	 * Load an office by provided Id
 	 */
 	@Override
 	public Office findById(Long id) {
-		
+
 		logger.info("Office to be loaded by Id: " + id);
-		
+
 		return em.find(Office.class, id);
 	}
 
@@ -55,74 +57,75 @@ public class OfficeDaoImpl implements OfficeDao {
 	 */
 	@Override
 	public List<Office> findByOrg(Office office) {
-		
+
 		logger.info("Office to be loaded by organization: " + office);
-		
+
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		
+
 		CriteriaQuery<Office> cq = cb.createQuery(Office.class);
-		
+
 		Root<Office> officeRoot = cq.from(Office.class);
-		
-		List<Predicate> preList = new ArrayList<Predicate>();
-		
+
+		List<Predicate> preList = new ArrayList<>();
+
 		Predicate orgPre = cb.equal(officeRoot.get("org"), office.getOrg());
-		
+
 		preList.add(orgPre);
-		
-		if (office.getName()!=null) {
+
+		if (office.getName() != null) {
 			Predicate namePre = cb.equal(officeRoot.get("name"), office.getName());
 			preList.add(namePre);
 		}
-		
-		if (office.getPhone()!=null) {
+
+		if (office.getPhone() != null) {
 			Predicate phonePre = cb.equal(officeRoot.get("phone"), office.getPhone());
 			preList.add(phonePre);
 		}
 
-		if (office.getIsActive()!=null) {
+		if (office.getIsActive() != null) {
 			Predicate isActivePre = cb.equal(officeRoot.get("isActive"), office.getIsActive());
 			preList.add(isActivePre);
 		}
-		
+
 		cq.where(cb.and(preList.toArray(new Predicate[preList.size()])));
-		
+
 		TypedQuery<Office> query = em.createQuery(cq);
-		
-		return query.getResultList();	
+
+		return query.getResultList();
 	}
-	
+
 	/**
 	 * Save office
 	 */
 	@Override
 	public void save(Office office) {
-		
+
 		logger.info("Office to be saved: " + office);
-		
+
 		em.persist(office);
 	}
-	
+
 	/**
 	 * Delete office
 	 */
 	@Override
 	public void delete(Office office) {
-		
+
 		logger.info("Office to be deleted: " + office);
-		
+
 		em.remove(office);
 	}
-	
+
 	/**
 	 * Retrieve list of offices
+	 * 
 	 * @return
 	 */
 	@Override
-	public List <Office> findAll() {
-		
+	public List<Office> findAll() {
+
 		TypedQuery<Office> query = em.createQuery("SELECT o from Office o", Office.class);
-		
+
 		return query.getResultList();
 	}
 }

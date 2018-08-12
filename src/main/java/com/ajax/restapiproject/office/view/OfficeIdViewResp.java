@@ -8,13 +8,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 public class OfficeIdViewResp {
-	
+
 	/**
 	 * Office identifier
 	 */
 	@ApiModelProperty(value = "Office identifier", position = 1)
 	public String id;
-	
+
 	/**
 	 * Office name
 	 */
@@ -41,6 +41,7 @@ public class OfficeIdViewResp {
 
 	/**
 	 * Constructor for initializing class fields
+	 * 
 	 * @param id
 	 * @param name
 	 * @param address

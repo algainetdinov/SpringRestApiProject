@@ -9,15 +9,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Organization validation tests
+ * 
  * @author Al
  *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class OrganizationValidationTests {
-	
+
 	@InjectMocks
 	protected OrganizationValidation organizationVal;
-	
+
 	/**
 	 * Validate organization name
 	 */
@@ -26,11 +27,11 @@ public class OrganizationValidationTests {
 		assertThat(organizationVal.valName("", false)).isEmpty();
 		assertThat(organizationVal.valName("", true)).isNotEmpty();
 		assertThat(organizationVal.valName("   Aj   ", false)).isNotEmpty();
-		assertThat(organizationVal.valName("AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax"
-				+ "AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax", false)).isNotEmpty();
+		assertThat(organizationVal.valName("AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax" + "AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax",
+				false)).isNotEmpty();
 		assertThat(organizationVal.valName("Ajax inc.", true)).isEmpty();
 	}
-	
+
 	/**
 	 * Validate organization full name
 	 */
@@ -39,11 +40,12 @@ public class OrganizationValidationTests {
 		assertThat(organizationVal.valFullName("", false)).isEmpty();
 		assertThat(organizationVal.valFullName("", true)).isNotEmpty();
 		assertThat(organizationVal.valFullName("   Aj   ", false)).isNotEmpty();
-		assertThat(organizationVal.valFullName("AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax"
-				+ "AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax", false)).isNotEmpty();
+		assertThat(organizationVal
+				.valFullName("AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax" + "AjaxAjaxAjaxAjaxAjaxAjaxAjaxAjax", false))
+						.isNotEmpty();
 		assertThat(organizationVal.valFullName("Ajax inc.", true)).isEmpty();
 	}
-	
+
 	/**
 	 * Validate organization INN
 	 */
@@ -55,7 +57,7 @@ public class OrganizationValidationTests {
 		assertThat(organizationVal.valInn("f131322313", false)).isNotEmpty();
 		assertThat(organizationVal.valInn("2365478954", true)).isEmpty();
 	}
-	
+
 	/**
 	 * Validate organization KPP
 	 */

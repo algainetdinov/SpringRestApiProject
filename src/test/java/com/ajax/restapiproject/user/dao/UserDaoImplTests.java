@@ -21,22 +21,22 @@ import com.ajax.restapiproject.user.model.User;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase 
-@AutoConfigureTestEntityManager 
+@AutoConfigureTestDatabase
+@AutoConfigureTestEntityManager
 @Transactional
 public class UserDaoImplTests {
-	
+
 	@Autowired
 	private UserDaoImpl userDao;
-	
+
 	@Autowired
 	private TestEntityManager entityManager;
-	
+
 	@Mock
 	private User user;
-	
+
 	private static Long userId;
-	
+
 	/**
 	 * Create test organization, office and user
 	 */
@@ -52,7 +52,7 @@ public class UserDaoImplTests {
 		office.setAddress("city street building");
 		office.setName("name");
 		office.setOrg(org);
-		org.getOffices().add(office);		
+		org.getOffices().add(office);
 		User user = new User();
 		user.setFirstName("John");
 		user.setPosition("manager");
@@ -63,30 +63,30 @@ public class UserDaoImplTests {
 		entityManager.persist(org);
 		userId = user.getId();
 	}
-	
+
 	/**
 	 * Test retrieving of user
 	 */
 	@Test
-	public void findByIdTest () {
-		
+	public void findByIdTest() {
+
 		assertThat(userDao.findById(userId)).isNotNull();
 	}
-	
+
 	/**
 	 * Test retrieving of user by office
 	 */
 	@Test
-	public void findByOfficeIdTest () {
+	public void findByOfficeIdTest() {
 		User user = userDao.findById(userId);
 		assertThat(userDao.findByOffice(user)).hasAtLeastOneElementOfType(User.class);
 	}
-	
+
 	/**
 	 * Test deleting of user
 	 */
 	@Test
-	public void deleteTest () {
+	public void deleteTest() {
 		int initialLength = userDao.findAll().size();
 		User user = userDao.findById(userId);
 		user.getOffice().getUsers().remove(user);
@@ -94,12 +94,12 @@ public class UserDaoImplTests {
 		userDao.delete(userDao.findById(userId));
 		assertThat(userDao.findAll().size()).isEqualTo(initialLength - 1);
 	}
-	
+
 	/**
 	 * Test saving of user
 	 */
 	@Test
-	public void saveTest () {
+	public void saveTest() {
 		int initialLength = userDao.findAll().size();
 		User user = new User();
 		user.setFirstName("John");
@@ -108,4 +108,3 @@ public class UserDaoImplTests {
 		assertThat(userDao.findAll().size()).isEqualTo(initialLength + 1);
 	}
 }
-

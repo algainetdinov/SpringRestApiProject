@@ -21,22 +21,23 @@ import com.ajax.restapiproject.document.model.Document;
 
 /**
  * Tests document DAO implementation
+ * 
  * @author Al
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase 
-@AutoConfigureTestEntityManager 
+@AutoConfigureTestDatabase
+@AutoConfigureTestEntityManager
 @Transactional
 public class DocumentDaoImplTests {
-	
+
 	@Autowired
 	private DocumentDaoImpl documentDao;
-	
+
 	@Autowired
 	private TestEntityManager entityManager;
-	
+
 	/**
 	 * Create test doctypes
 	 */
@@ -57,7 +58,7 @@ public class DocumentDaoImplTests {
 		entityManager.persist(doc1);
 		entityManager.persist(doc2);
 	}
-	
+
 	/**
 	 * Test deleting of document
 	 */
@@ -68,7 +69,7 @@ public class DocumentDaoImplTests {
 		documentDao.delete(doc);
 		assertThat(documentDao.findAll().size()).isEqualTo(initialCount - 1);
 	}
-	
+
 	/**
 	 * Test retrieving of documents
 	 */
@@ -76,6 +77,5 @@ public class DocumentDaoImplTests {
 	public void findAllTest() {
 		assertThat(documentDao.findAll()).hasAtLeastOneElementOfType(Document.class);
 	}
-	
-}
 
+}

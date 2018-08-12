@@ -11,41 +11,47 @@ import com.ajax.restapiproject.view.SuccessView;
 
 /**
  * Organizaton service interface
+ * 
  * @author Al
  *
  */
 public interface OrganizationService {
-	
+
 	/**
 	 * Load an organization by Id
+	 * 
 	 * @param id
 	 * @return
 	 */
 	OrganizationIdViewResp loadById(String id);
-	
+
 	/**
 	 * Load an organization by name
+	 * 
 	 * @param reqView
 	 * @return
 	 */
 	List<OrganizationListViewResp> loadByName(OrganizationListViewReq reqView);
-	
+
 	/**
 	 * Save an organization
+	 * 
 	 * @param reqView
 	 * @return
 	 */
 	SuccessView save(OrganizationSaveViewReq reqView);
-	
+
 	/**
 	 * Update an organization
+	 * 
 	 * @param reqView
 	 * @return
 	 */
 	SuccessView update(OrganizationUpdateViewReq reqView);
-	
+
 	/**
 	 * Delete an organization
+	 * 
 	 * @param id
 	 * @return
 	 */

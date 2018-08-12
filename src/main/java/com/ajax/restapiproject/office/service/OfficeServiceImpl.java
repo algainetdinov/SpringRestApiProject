@@ -97,8 +97,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 		Joiner joiner = Joiner.on(". ").skipNulls();
 
-		String loadByOrgValErrors = joiner.join(
-				Strings.emptyToNull(officeVal.valId(reqView.orgId, true)),
+		String loadByOrgValErrors = joiner.join(Strings.emptyToNull(officeVal.valId(reqView.orgId, true)),
 				Strings.emptyToNull(officeVal.valName(reqView.name, false)),
 				Strings.emptyToNull(officeVal.valPhone(reqView.phone, false)),
 				Strings.emptyToNull(officeVal.valIsActive(reqView.isActive, false)));
@@ -131,7 +130,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 		List<Office> officeList = officeDao.findByOrg(office);
 
-		List<OfficeListViewResp> viewResp = new ArrayList<OfficeListViewResp>();
+		List<OfficeListViewResp> viewResp = new ArrayList<>();
 
 		for (Office currentOffice : officeList) {
 
@@ -207,8 +206,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 		Joiner joiner = Joiner.on(". ").skipNulls();
 
-		String updateValErrors = joiner.join(
-				Strings.emptyToNull(officeVal.valId(reqView.id, true)),
+		String updateValErrors = joiner.join(Strings.emptyToNull(officeVal.valId(reqView.id, true)),
 				Strings.emptyToNull(officeVal.valName(reqView.name, false)),
 				Strings.emptyToNull(officeVal.valAddress(reqView.address, false)),
 				Strings.emptyToNull(officeVal.valPhone(reqView.phone, false)),

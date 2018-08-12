@@ -14,6 +14,7 @@ import static com.fasterxml.jackson.core.JsonToken.VALUE_STRING;
 
 /**
  * Trim any leading/trailing space at Strings
+ * 
  * @author Al
  *
  */

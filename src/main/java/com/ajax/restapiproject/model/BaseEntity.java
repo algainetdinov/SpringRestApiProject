@@ -6,24 +6,24 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
-/** 
+/**
  * Base entity provides common fields for subclasses
  */
 @MappedSuperclass
 public class BaseEntity {
-	
+
 	/**
 	 * Entity identifier
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	/**
-     * Hibernate technical field
-     */
-    @Version
-    private Integer version;
+	 * Hibernate technical field
+	 */
+	@Version
+	private Integer version;
 
 	public Long getId() {
 		return id;

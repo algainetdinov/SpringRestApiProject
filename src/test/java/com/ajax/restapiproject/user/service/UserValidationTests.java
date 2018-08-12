@@ -9,15 +9,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * User validation tests
+ * 
  * @author Al
  *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UserValidationTests {
-	
+
 	@InjectMocks
 	protected UserValidation userVal;
-	
+
 	@Test
 	public void valFirstNameTest() {
 		assertThat(userVal.valFirstName("", false)).isEmpty();
@@ -26,7 +27,7 @@ public class UserValidationTests {
 		assertThat(userVal.valFirstName("АлексейАлексейАлексейАлексейАлексей", false)).isNotEmpty();
 		assertThat(userVal.valFirstName("Алексей", true)).isEmpty();
 	}
-	
+
 	@Test
 	public void valLastNameTest() {
 		assertThat(userVal.valLastName("", false)).isEmpty();
@@ -35,7 +36,7 @@ public class UserValidationTests {
 		assertThat(userVal.valLastName("ИвановИвановИвановИвановИвановИванов", false)).isNotEmpty();
 		assertThat(userVal.valLastName("Иванов", true)).isEmpty();
 	}
-	
+
 	@Test
 	public void valMiddleNameTest() {
 		assertThat(userVal.valMiddleName("", false)).isEmpty();
@@ -44,7 +45,7 @@ public class UserValidationTests {
 		assertThat(userVal.valMiddleName("ПетровичПетровичПетровичПетровичПетрович", false)).isNotEmpty();
 		assertThat(userVal.valMiddleName("Петрович", true)).isEmpty();
 	}
-	
+
 	@Test
 	public void valPositionTest() {
 		assertThat(userVal.valPosition("", false)).isEmpty();
@@ -53,7 +54,7 @@ public class UserValidationTests {
 		assertThat(userVal.valPosition("ДиректорДиректорДиректорДиректорДиректор", false)).isNotEmpty();
 		assertThat(userVal.valPosition("Директор", true)).isEmpty();
 	}
-	
+
 	@Test
 	public void valIsIdentifiedTest() {
 		assertThat(userVal.valIsIdentified("", false)).isEmpty();
@@ -64,7 +65,7 @@ public class UserValidationTests {
 		assertThat(userVal.valIsIdentified("fAlsE", false)).isEmpty();
 		assertThat(userVal.valIsIdentified("trUE", false)).isEmpty();
 	}
-	
+
 	@Test
 	public void valDocCodeTest() {
 		assertThat(userVal.valDocCode("", false)).isEmpty();
@@ -73,7 +74,7 @@ public class UserValidationTests {
 		assertThat(userVal.valDocCode("11 ВВ", false)).isNotEmpty();
 		assertThat(userVal.valDocCode("Номер_1_Номер_1Номер_1Номер_1Номер_1Номер_1Номер", false)).isNotEmpty();
 	}
-	
+
 	@Test
 	public void valDocDateTest() {
 		assertThat(userVal.valDocDate("", false)).isEmpty();
@@ -83,7 +84,7 @@ public class UserValidationTests {
 		assertThat(userVal.valDocDate("дата", false)).isNotEmpty();
 		assertThat(userVal.valDocDate("ДатаДатаДатаДатаДатаДатаДатаДатаДатаДатаДата", false)).isNotEmpty();
 	}
-	
+
 	@Test
 	public void valCitizCodeTest() {
 		assertThat(userVal.valCitizCode("", false)).isEmpty();
@@ -94,5 +95,5 @@ public class UserValidationTests {
 		assertThat(userVal.valCitizCode("-23", false)).isNotEmpty();
 		assertThat(userVal.valCitizCode("3453", false)).isNotEmpty();
 	}
-	
+
 }

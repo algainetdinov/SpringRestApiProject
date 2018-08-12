@@ -18,18 +18,18 @@ import com.ajax.restapiproject.country.model.Country;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase 
-@AutoConfigureTestEntityManager 
+@AutoConfigureTestDatabase
+@AutoConfigureTestEntityManager
 public class CountryDaoImplTests {
-	
+
 	@Autowired
 	private CountryDaoImpl countryDao;
-	
+
 	@Autowired
 	private TestEntityManager entityManager;
-	
+
 	private static Long countryId;
-	
+
 	/**
 	 * Create test countries
 	 */
@@ -42,7 +42,7 @@ public class CountryDaoImplTests {
 		countryId = russia.getId();
 
 	}
-	
+
 	/**
 	 * Test retrieving of countries
 	 */
@@ -51,7 +51,7 @@ public class CountryDaoImplTests {
 	public void findAllTest() {
 		assertThat(countryDao.findAll()).hasAtLeastOneElementOfType(Country.class);
 	}
-	
+
 	/**
 	 * Test retrieving of country by code
 	 */
@@ -60,7 +60,7 @@ public class CountryDaoImplTests {
 	public void findByCode() {
 		assertThat(countryDao.findByCode("643")).isNotNull();
 	}
-	
+
 	/**
 	 * Test retrieving of country by Id
 	 */
@@ -69,6 +69,5 @@ public class CountryDaoImplTests {
 	public void findById() {
 		assertThat(countryDao.findById(countryId)).isNotNull();
 	}
-	
-}
 
+}

@@ -19,47 +19,47 @@ import com.ajax.restapiproject.office.model.Office;
  */
 @Entity
 @Table(name = "user")
-public class User extends Person{
-	
+public class User extends Person {
+
 	/**
 	 * Flag about person identification
 	 */
 	@Column(name = "is_identified")
 	private Boolean isIdentified;
-	
+
 	/**
 	 * Person's position in organization
 	 */
 	@Column(name = "position", length = 32, nullable = false)
 	private String position;
-	
+
 	/**
 	 * Person's phone number
 	 */
 	@Column(name = "phone", length = 18)
 	private String phone;
-	
+
 	/**
 	 * Person's office
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="office_id") 
+	@JoinColumn(name = "office_id")
 	private Office office;
-	
+
 	/**
 	 * Person's document
 	 */
 	@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-	@JoinColumn(name="doc_id") 
+	@JoinColumn(name = "doc_id")
 	private Document doc;
-	
+
 	/**
 	 * Person's citizenship
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "citiz_id")
 	private Country country;
-	
+
 	public Boolean getIsIdentified() {
 		return isIdentified;
 	}

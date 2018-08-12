@@ -8,29 +8,30 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 public class OrganizationListViewReq {
-	
+
 	/**
 	 * Organization name
 	 */
 	@ApiModelProperty(value = "Organization name", position = 1, required = true)
 	public String name;
-	
+
 	/**
 	 * Organization INN
 	 */
 	@ApiModelProperty(value = "Organization INN", position = 2)
 	public String inn;
-	
+
 	/**
 	 * Organization activity
 	 */
 	@ApiModelProperty(value = "Organization activity", position = 3)
 	public String isActive;
-	
+
 	/**
 	 * Default constructor
 	 */
-	public OrganizationListViewReq() {}
+	public OrganizationListViewReq() {
+	}
 
 	@Override
 	public String toString() {

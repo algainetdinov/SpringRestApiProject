@@ -14,6 +14,7 @@ import com.ajax.restapiproject.doctype.model.Doctype;
 
 /**
  * Doctype DAO implementation
+ * 
  * @author Al
  *
  */
@@ -21,28 +22,29 @@ import com.ajax.restapiproject.doctype.model.Doctype;
 public class DoctypeDaoImpl implements DoctypeDao {
 
 	private final EntityManager em;
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Constructor to set final fields
+	 * 
 	 * @param em
 	 */
 	@Autowired
-	public DoctypeDaoImpl (EntityManager em) {
-		
+	public DoctypeDaoImpl(EntityManager em) {
+
 		this.em = em;
 	}
-	
+
 	/**
 	 * Retrieve all doctypes
 	 */
 	@Override
 	public List<Doctype> findAll() {
-		
+
 		TypedQuery<Doctype> query = em.createQuery("SELECT d FROM Doctype d", Doctype.class);
-		
-        return query.getResultList();
+
+		return query.getResultList();
 	}
 
 	/**
@@ -50,13 +52,14 @@ public class DoctypeDaoImpl implements DoctypeDao {
 	 */
 	@Override
 	public Doctype findByCode(String code) {
-		
-		logger.info("loadByCode method called with code: "+code);
-		
-		TypedQuery<Doctype> query = em.createQuery("SELECT d FROM Doctype d WHERE d.code = :code", Doctype.class).setParameter("code", code);
-		
+
+		logger.info("loadByCode method called with code: " + code);
+
+		TypedQuery<Doctype> query = em.createQuery("SELECT d FROM Doctype d WHERE d.code = :code", Doctype.class)
+				.setParameter("code", code);
+
 		Doctype doctype = query.getResultList().stream().findFirst().orElse(null);
-		
+
 		return doctype;
 	}
 
@@ -65,7 +68,7 @@ public class DoctypeDaoImpl implements DoctypeDao {
 	 */
 	@Override
 	public Doctype findById(Long id) {
-		
+
 		return em.find(Doctype.class, id);
 	}
 

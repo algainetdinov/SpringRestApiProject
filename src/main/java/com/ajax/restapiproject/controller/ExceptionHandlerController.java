@@ -15,68 +15,73 @@ import com.ajax.restapiproject.view.ExceptionView;
 
 /**
  * In case of exception return ExceptionView
+ * 
  * @author Al
  *
  */
-@RestControllerAdvice(basePackages="com.ajax.restapiproject")
+@RestControllerAdvice(basePackages = "com.ajax.restapiproject")
 public class ExceptionHandlerController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	/**
 	 * Return ExceptionView on NotFoundException
+	 * 
 	 * @param e
 	 * @return
 	 */
 	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ExceptionView handleNotFoundException (ApiException e) {
-		
+	public ExceptionView handleNotFoundException(ApiException e) {
+
 		ExceptionView exView = new ExceptionView(e.getMessage());
-		
+
 		return exView;
 	}
-	
+
 	/**
 	 * Return ExceptionView on BadRequestException
+	 * 
 	 * @param e
 	 * @return
 	 */
 	@ExceptionHandler(BadRequestException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionView handleBadRequestException (ApiException e) {
-		
+	public ExceptionView handleBadRequestException(ApiException e) {
+
 		ExceptionView exView = new ExceptionView(e.getMessage());
-		
+
 		return exView;
 	}
-	
+
 	/**
 	 * Return ExceptionView on NotSavedException
+	 * 
 	 * @param e
 	 * @return
 	 */
 	@ExceptionHandler(NotSavedException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ExceptionView handleNotSavedException (ApiException e) {
-		
+	public ExceptionView handleNotSavedException(ApiException e) {
+
 		ExceptionView exView = new ExceptionView(e.getMessage());
-		
+
 		return exView;
 	}
-	
+
 	/**
 	 * Return ExceptionView on any other exception
+	 * 
 	 * @param e
 	 * @return
 	 */
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ExceptionView handleException (Exception e) {
-		
+	public ExceptionView handleException(Exception e) {
+
 		logger.error("Exception: ", e);
-		
+
 		ExceptionView exView = new ExceptionView("Internal server error");
-		
+
 		return exView;
 	}
 }
